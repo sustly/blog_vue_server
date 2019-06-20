@@ -21,8 +21,9 @@ public interface UserService {
     void save(User user);
 
     /**
-     *findByUsernameAndPassword
+     * findByUsernameAndPassword
      * @param user user
+     * @return User
      */
     User findByUsernameAndPassword(User user);
 }

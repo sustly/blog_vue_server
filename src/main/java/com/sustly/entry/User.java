@@ -5,13 +5,15 @@ import java.util.Objects;
 
 /**
  * @author liyue
- * @date 2019/5/29 9:43
+ * @date 2019/6/20 15:02
  */
 @Entity
 public class User {
     private Integer id;
     private String username;
     private String password;
+    private String createTime;
+    private String lastLoginTime;
 
     @Id
     @Column(name = "id")
@@ -44,6 +46,26 @@ public class User {
         this.password = password;
     }
 
+    @Basic
+    @Column(name = "create_time")
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    @Basic
+    @Column(name = "last_login_time")
+    public String getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(String lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,11 +73,13 @@ public class User {
         User user = (User) o;
         return Objects.equals(id, user.id) &&
                 Objects.equals(username, user.username) &&
-                Objects.equals(password, user.password);
+                Objects.equals(password, user.password) &&
+                Objects.equals(createTime, user.createTime) &&
+                Objects.equals(lastLoginTime, user.lastLoginTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password);
+        return Objects.hash(id, username, password, createTime, lastLoginTime);
     }
 }

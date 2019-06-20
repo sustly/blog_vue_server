@@ -1,26 +1,25 @@
 package com.sustly.entry;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
  * @author liyue
- * @date 2019/5/21 16:00
+ * @date 2019/6/20 14:59
  */
 @Entity
 public class Blog {
     private Integer id;
     private String content;
     private String createTime;
-    private String summary;
+    private String category;
     private String title;
-    private String tags;
+    private String createUser;
+    private Integer views;
 
     @Id
     @Column(name = "id")
+    @GeneratedValue
     public Integer getId() {
         return id;
     }
@@ -50,13 +49,13 @@ public class Blog {
     }
 
     @Basic
-    @Column(name = "summary")
-    public String getSummary() {
-        return summary;
+    @Column(name = "category")
+    public String getCategory() {
+        return category;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @Basic
@@ -70,13 +69,23 @@ public class Blog {
     }
 
     @Basic
-    @Column(name = "tags")
-    public String getTags() {
-        return tags;
+    @Column(name = "create_user")
+    public String getCreateUser() {
+        return createUser;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    @Basic
+    @Column(name = "views")
+    public Integer getViews() {
+        return views;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
     }
 
     @Override
@@ -87,13 +96,14 @@ public class Blog {
         return Objects.equals(id, blog.id) &&
                 Objects.equals(content, blog.content) &&
                 Objects.equals(createTime, blog.createTime) &&
-                Objects.equals(summary, blog.summary) &&
+                Objects.equals(category, blog.category) &&
                 Objects.equals(title, blog.title) &&
-                Objects.equals(tags, blog.tags);
+                Objects.equals(createUser, blog.createUser) &&
+                Objects.equals(views, blog.views);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, content, createTime, summary, title, tags);
+        return Objects.hash(id, content, createTime, category, title, createUser, views);
     }
 }

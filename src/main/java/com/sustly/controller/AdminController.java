@@ -2,6 +2,7 @@ package com.sustly.controller;
 
 import com.sustly.entry.User;
 import com.sustly.service.UserService;
+import com.sustly.util.DateUtil;
 import com.sustly.util.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,7 @@ public class AdminController {
                 User newUser = new User();
                 newUser.setUsername(user.getUsername());
                 newUser.setPassword(Md5Util.encrypt(user.getPassword()));
+                newUser.setCreateTime(DateUtil.getLocalTime());
                 userService.save(newUser);
                 map.put("result",true);
                 map.put("message","用户创建成功！");
@@ -53,7 +55,10 @@ public class AdminController {
             map.put("result", false);
             map.put("message", "用户名或密码错误！");
         }else {
+            userFind.setLastLoginTime(DateUtil.getLocalTime());
+            userService.save(userFind);
             map.put("result", true);
+            map.put("user",userFind);
             map.put("message", "登陆成功！");
         }
         return map;
