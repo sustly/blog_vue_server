@@ -29,4 +29,9 @@ public class ArticleServiceImpl implements ArticleService {
     public Blog findById(Integer id) {
         return articleDao.findById(id);
     }
+
+    @Override
+    public void delete(Integer id) {
+        articleDao.deleteById(id);
+    }
 }

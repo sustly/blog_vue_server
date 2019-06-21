@@ -19,4 +19,6 @@ public interface ArticleService {
      * @return Blog
      */
     Blog findById(Integer id);
+
+    void delete(Integer id);
 }

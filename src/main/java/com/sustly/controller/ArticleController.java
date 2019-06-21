@@ -44,4 +44,11 @@ public class ArticleController {
         }
         return map;
     }
+    @PostMapping("/deleteArticle/{id}")
+    public Map<String, Object> delete(@PathVariable("id") Integer id){
+        HashMap<String, Object> map = new HashMap<>(1);
+        articleService.delete(id);
+        map.put("result", true);
+        return map;
+    }
 }

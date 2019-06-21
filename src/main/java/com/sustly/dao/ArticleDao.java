@@ -13,4 +13,10 @@ public interface ArticleDao extends JpaRepository<Blog, Integer> {
      * @return Blog
      */
     Blog findById(Integer id);
+
+    /**
+     *deleteById
+     * @param id id
+     */
+    void deleteById(Integer id);
 }
