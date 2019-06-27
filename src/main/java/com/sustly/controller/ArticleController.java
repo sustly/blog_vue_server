@@ -62,4 +62,14 @@ public class ArticleController {
         map.put("blogList", blogList);
         return map;
     }
+
+    @PostMapping("/view/{id}")
+    public void view(@PathVariable("id") Integer id){
+        Blog blog = articleService.findById(id);
+        Integer views = blog.getViews();
+        views = views + 1;
+        blog.setViews(views);
+
+        articleService.save(blog);
+    }
 }
