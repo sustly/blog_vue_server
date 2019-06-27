@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,6 +50,16 @@ public class ArticleController {
         HashMap<String, Object> map = new HashMap<>(1);
         articleService.delete(id);
         map.put("result", true);
+        return map;
+    }
+
+    @PostMapping("/getArticleList/{page}")
+    public Map<String, Object> getArticleList(@PathVariable("page") Integer page){
+        HashMap<String, Object> map = new HashMap<>(2);
+        long records = articleService.getAllCount();
+        map.put("records", records);
+        List<Blog> blogList = articleService.getBlogListByPage(page);
+        map.put("blogList", blogList);
         return map;
     }
 }

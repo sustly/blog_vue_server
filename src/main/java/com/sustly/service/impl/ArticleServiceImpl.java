@@ -4,7 +4,11 @@ import com.sustly.dao.ArticleDao;
 import com.sustly.entry.Blog;
 import com.sustly.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author liyue
@@ -33,5 +37,16 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void delete(Integer id) {
         articleDao.deleteById(id);
+    }
+
+    @Override
+    public long getAllCount() {
+        return articleDao.count();
+    }
+
+    @Override
+    public List<Blog> getBlogListByPage(Integer page) {
+        Pageable pageable = new PageRequest(page, 10);
+        return articleDao.findAll(pageable).getContent();
     }
 }
