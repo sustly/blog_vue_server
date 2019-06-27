@@ -6,6 +6,7 @@ import com.sustly.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,7 +47,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Blog> getBlogListByPage(Integer page) {
-        Pageable pageable = new PageRequest(page, 10);
+        Sort sort=new Sort(Sort.Direction.DESC,"createTime");
+        Pageable pageable = new PageRequest(page, 10, sort);
         return articleDao.findAll(pageable).getContent();
     }
 }
