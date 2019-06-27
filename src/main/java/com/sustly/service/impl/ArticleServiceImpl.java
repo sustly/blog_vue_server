@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ import java.util.List;
  * @date 2019/6/20 15:46
  */
 @Service
+@Transactional(rollbackOn = {Exception.class})
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleDao articleDao;
