@@ -52,14 +52,14 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Blog> getBlogListByPage(Integer page) {
         Sort sort=new Sort(Sort.Direction.DESC,"createTime");
-        Pageable pageable = new PageRequest(page, 10, sort);
+        Pageable pageable = PageRequest.of(page, 10, sort);
         return articleDao.findAll(pageable).getContent();
     }
 
     @Override
     public List<Blog> getBlogListByView(Integer page) {
         Sort sort=new Sort(Sort.Direction.DESC,"views");
-        Pageable pageable = new PageRequest(page, 10, sort);
+        Pageable pageable = PageRequest.of(page, 10, sort);
         return articleDao.findAll(pageable).getContent();
     }
 
@@ -71,7 +71,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Blog> getBlogListByCategory(Integer page, String category) {
         Sort sort=new Sort(Sort.Direction.DESC,"createTime");
-        Pageable pageable = new PageRequest(page, 10, sort);
+        Pageable pageable = PageRequest.of(page, 10, sort);
         Specification<Blog> specification = (Specification<Blog>) (root, criteriaQuery, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
             predicate.getExpressions().add(criteriaBuilder.equal(root.get("category"), category));
