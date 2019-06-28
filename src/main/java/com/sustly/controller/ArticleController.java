@@ -2,7 +2,9 @@ package com.sustly.controller;
 
 import com.sustly.entry.Blog;
 import com.sustly.service.ArticleService;
+import com.sustly.util.BeanUtil;
 import com.sustly.util.DateUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -91,5 +93,15 @@ public class ArticleController {
         blog.setViews(views);
 
         articleService.save(blog);
+    }
+
+    @PostMapping("/updateArticle")
+    public Map<String, Object> updateArticle(@RequestBody(required = false) Blog blog) throws Exception {
+        HashMap<String, Object> map = new HashMap<>(1);
+        Blog findBlog = articleService.findById(blog.getId());
+        BeanUtil.updateBean(findBlog, blog);
+        articleService.save(findBlog);
+        map.put("result", true);
+        return map;
     }
 }
