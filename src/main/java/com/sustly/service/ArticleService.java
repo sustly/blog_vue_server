@@ -40,4 +40,15 @@ public interface ArticleService {
      * @return List<Blog>
      */
     List<Blog> getBlogListByPage(Integer page);
+
+    /**
+     * 分页查询
+     * @param page page
+     * @return List<Blog>
+     */
+    List<Blog> getBlogListByView(Integer page);
+
+    long getAllCountByCategory(String category);
+
+    List<Blog> getBlogListByCategory(Integer page, String category);
 }

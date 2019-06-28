@@ -53,12 +53,32 @@ public class ArticleController {
         return map;
     }
 
-    @PostMapping("/getArticleList/{page}")
+    @PostMapping("/getArticleListByTime/{page}")
     public Map<String, Object> getArticleList(@PathVariable("page") Integer page){
         HashMap<String, Object> map = new HashMap<>(2);
         long records = articleService.getAllCount();
         map.put("records", records);
         List<Blog> blogList = articleService.getBlogListByPage(page);
+        map.put("blogList", blogList);
+        return map;
+    }
+
+    @PostMapping("/getArticleListByView/{page}")
+    public Map<String, Object> getArticleListByTime(@PathVariable("page") Integer page){
+        HashMap<String, Object> map = new HashMap<>(2);
+        long records = articleService.getAllCount();
+        map.put("records", records);
+        List<Blog> blogList = articleService.getBlogListByView(page);
+        map.put("blogList", blogList);
+        return map;
+    }
+    @PostMapping("/getArticleListByCategory/{category}/{page}")
+    public Map<String, Object> getArticleListByCategory(@PathVariable("category") String category,
+                                                        @PathVariable("page") Integer page){
+        HashMap<String, Object> map = new HashMap<>(2);
+        long records = articleService.getAllCountByCategory(category);
+        map.put("records", records);
+        List<Blog> blogList = articleService.getBlogListByCategory(page, category);
         map.put("blogList", blogList);
         return map;
     }
