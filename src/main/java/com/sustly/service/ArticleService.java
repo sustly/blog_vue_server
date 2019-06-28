@@ -62,4 +62,6 @@ public interface ArticleService {
      * @return List<Blog>
      */
     List<Blog> getBlogListByCategory(Integer page, String category);
+
+    List<Blog> search(String search, Integer page);
 }

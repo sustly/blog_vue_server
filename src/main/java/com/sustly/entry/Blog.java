@@ -1,5 +1,7 @@
 package com.sustly.entry;
 
+import com.sustly.document.EsBlog;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -76,6 +78,17 @@ public class Blog {
 
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
+    }
+
+    public Blog(){}
+    public Blog(EsBlog esBlog){
+        this.category = esBlog.getCategory();
+        this.content = esBlog.getContent();
+        this.id = esBlog.getBlogId();
+        this.title = esBlog.getTitle();
+        this.views = esBlog.getViews();
+        this.createTime = esBlog.getCreateTime();
+        this.createUser= esBlog.getCreateUser();
     }
 
     @Basic

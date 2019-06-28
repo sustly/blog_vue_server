@@ -4,13 +4,16 @@ import com.sustly.entry.Blog;
 import com.sustly.service.ArticleService;
 import com.sustly.util.BeanUtil;
 import com.sustly.util.DateUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,25 +33,26 @@ public class ArticleController {
     }
 
     @PostMapping("/saveArticle")
-    public void save(@RequestBody(required = false) Blog blog){
+    public void save(@RequestBody(required = false) Blog blog) {
         blog.setCreateTime(DateUtil.getLocalTime());
         articleService.save(blog);
     }
 
     @PostMapping("/getArticle/{id}")
-    public Map<String, Object> get(@PathVariable("id") Integer id){
+    public Map<String, Object> get(@PathVariable("id") Integer id) {
         HashMap<String, Object> map = new HashMap<>(1);
         Blog blog = articleService.findById(id);
         if (blog != null) {
             map.put("blog", blog);
             map.put("result", true);
-        }else {
+        } else {
             map.put("result", false);
         }
         return map;
     }
+
     @PostMapping("/deleteArticle/{id}")
-    public Map<String, Object> delete(@PathVariable("id") Integer id){
+    public Map<String, Object> delete(@PathVariable("id") Integer id) {
         HashMap<String, Object> map = new HashMap<>(1);
         articleService.delete(id);
         map.put("result", true);
@@ -56,7 +60,7 @@ public class ArticleController {
     }
 
     @PostMapping("/getArticleListByTime/{page}")
-    public Map<String, Object> getArticleList(@PathVariable("page") Integer page){
+    public Map<String, Object> getArticleList(@PathVariable("page") Integer page) {
         HashMap<String, Object> map = new HashMap<>(2);
         long records = articleService.getAllCount();
         map.put("records", records);
@@ -66,7 +70,7 @@ public class ArticleController {
     }
 
     @PostMapping("/getArticleListByView/{page}")
-    public Map<String, Object> getArticleListByTime(@PathVariable("page") Integer page){
+    public Map<String, Object> getArticleListByTime(@PathVariable("page") Integer page) {
         HashMap<String, Object> map = new HashMap<>(2);
         long records = articleService.getAllCount();
         map.put("records", records);
@@ -74,9 +78,10 @@ public class ArticleController {
         map.put("blogList", blogList);
         return map;
     }
+
     @PostMapping("/getArticleListByCategory/{category}/{page}")
     public Map<String, Object> getArticleListByCategory(@PathVariable("category") String category,
-                                                        @PathVariable("page") Integer page){
+                                                        @PathVariable("page") Integer page) {
         HashMap<String, Object> map = new HashMap<>(2);
         long records = articleService.getAllCountByCategory(category);
         map.put("records", records);
@@ -86,7 +91,7 @@ public class ArticleController {
     }
 
     @PostMapping("/view/{id}")
-    public void view(@PathVariable("id") Integer id){
+    public void view(@PathVariable("id") Integer id) {
         Blog blog = articleService.findById(id);
         Integer views = blog.getViews();
         views = views + 1;
@@ -102,6 +107,18 @@ public class ArticleController {
         BeanUtil.updateBean(findBlog, blog);
         articleService.save(findBlog);
         map.put("result", true);
+        return map;
+    }
+
+    @PostMapping("/getArticleListBySearch/{search}/{page}")
+    public Map<String, Object> getArticleListBySearch(@PathVariable("search") String search,
+                                                      @PathVariable("page") Integer page) {
+
+
+        HashMap<String, Object> map = new HashMap<>(1);
+        List<Blog> blogList = articleService.search(search, page);
+        map.put("records", blogList.size());
+        map.put("blogList", blogList);
         return map;
     }
 }
