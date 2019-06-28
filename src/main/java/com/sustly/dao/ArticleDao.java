@@ -15,12 +15,6 @@ public interface ArticleDao extends JpaRepository<Blog, Integer>, JpaSpecificati
      */
     Blog getBlogById(Integer id);
 
-/*    *//**
-     *deleteById
-     * @param id id
-     */
-    void deleteById(Integer id);
-
     /**
      * countByCategory
      * @param category category
