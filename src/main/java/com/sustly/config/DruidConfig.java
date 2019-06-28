@@ -33,8 +33,8 @@ public class DruidConfig {
      */
 
     @Bean
-    public ServletRegistrationBean statViewServlet(){
-        ServletRegistrationBean bean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
+    public ServletRegistrationBean<StatViewServlet> statViewServlet(){
+        ServletRegistrationBean<StatViewServlet> bean = new ServletRegistrationBean<>(new StatViewServlet(), "/druid/*");
         Map<String,String> initParams = new HashMap<>(5);
 
         initParams.put("loginUsername","admin");
@@ -52,8 +52,8 @@ public class DruidConfig {
      * 2、配置一个web监控的filter
      */
     @Bean
-    public FilterRegistrationBean webStatFilter(){
-        FilterRegistrationBean bean = new FilterRegistrationBean();
+    public FilterRegistrationBean<WebStatFilter> webStatFilter(){
+        FilterRegistrationBean<WebStatFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new WebStatFilter());
 
         Map<String,String> initParams = new HashMap<>(5);

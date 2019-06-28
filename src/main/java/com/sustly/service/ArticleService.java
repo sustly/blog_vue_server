@@ -48,7 +48,18 @@ public interface ArticleService {
      */
     List<Blog> getBlogListByView(Integer page);
 
+    /**
+     * getAllCountByCategory
+     * @param category category
+     * @return long
+     */
     long getAllCountByCategory(String category);
 
+    /**
+     *  getBlogListByCategory
+     * @param page page
+     * @param category category
+     * @return List<Blog>
+     */
     List<Blog> getBlogListByCategory(Integer page, String category);
 }
