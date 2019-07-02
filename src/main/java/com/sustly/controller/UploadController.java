@@ -35,7 +35,12 @@ public class UploadController {
 
         Map<String, Object> map = new HashMap<>(2);
         //本地使用,上传位置
-        String rootPath = "D:\\Users\\Documents\\uploads\\";
+        String rootPath = null;
+        if(System.getProperty("os.name").startsWith("Windows")) {
+            rootPath = "D:\\Users\\Documents\\uploads\\";
+        }else if (System.getProperty("os.name").startsWith("Linux")){
+            rootPath = "/usr/local/upLoads/";
+        }
 
         //文件的完整名称,如spring.jpeg
         String filename = image.getOriginalFilename();
