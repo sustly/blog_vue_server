@@ -1,16 +1,22 @@
 package com.sustly.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.util.FileUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.File;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author liyue
@@ -44,15 +50,11 @@ public class UploadController {
 
         //目标文件
         File descFile = new File(rootPath + File.separator + dateDirs + File.separator + filename);
-        int i = 1;
-        //若文件存在重命名
-        String newFilename = filename;
-        while (descFile.exists()) {
-            newFilename = name + "(" + i + ")" + suffix;
-            String parentPath = descFile.getParent();
-            descFile = new File(parentPath + File.separator + newFilename);
-            i++;
-        }
+
+        String newFilename = UUID.randomUUID() + suffix;
+        String parentPath = descFile.getParent();
+        descFile = new File(parentPath + File.separator + newFilename);
+
         //判断目标文件所在的目录是否存在
         if (!descFile.getParentFile().exists()) {
             //如果目标文件所在的目录不存在，则创建父目录
@@ -69,9 +71,27 @@ public class UploadController {
             return map;
         }
         //完整的url
-        String fileUrl = "\\uploads/" + dateDirs + "\\" + newFilename;
+        String fileUrl = "http://localhost:8081/blog/getImg?url=" + descFile;
         map.put("result", true);
         map.put("url", fileUrl);
         return map;
+    }
+
+    @RequestMapping(value = "/getImg", method = RequestMethod.GET)
+    public void getFile(@RequestParam("url")String url,
+                        HttpServletResponse response) throws IOException {
+        File file = new File(url);
+        ServletOutputStream outputStream = response.getOutputStream();
+        FileInputStream fileInputStream = new FileInputStream(file);
+        byte[] bytes = new byte[1024];
+
+        while (fileInputStream.read(bytes) != -1){
+            outputStream.write(bytes);
+        }
+
+        outputStream.flush();
+        fileInputStream.close();
+        outputStream.close();
+
     }
 }
