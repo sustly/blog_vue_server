@@ -76,7 +76,8 @@ public class UploadController {
             return map;
         }
         //完整的url
-        String fileUrl = "http://localhost:8081/blog/getImg?url=" + descFile;
+        String fileUrl = "http://www.sustly.xyz:8081/blog/getImg?url=" + descFile;
+        log.info(fileUrl);
         map.put("result", true);
         map.put("url", fileUrl);
         return map;
@@ -86,6 +87,7 @@ public class UploadController {
     public void getFile(@RequestParam("url")String url,
                         HttpServletResponse response) throws IOException {
         File file = new File(url);
+        log.info(url);
         ServletOutputStream outputStream = response.getOutputStream();
         FileInputStream fileInputStream = new FileInputStream(file);
         byte[] bytes = new byte[1024];
@@ -97,6 +99,5 @@ public class UploadController {
         outputStream.flush();
         fileInputStream.close();
         outputStream.close();
-
     }
 }
