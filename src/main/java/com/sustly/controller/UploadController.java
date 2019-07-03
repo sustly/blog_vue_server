@@ -26,8 +26,9 @@ import java.util.UUID;
 @Slf4j
 public class UploadController {
     /**
-     * @param image
-     * @return
+     * 文件上传
+     * @param image image
+     * @return Map<String, Object>
      */
     @RequestMapping(value = "/uploadImg", method = RequestMethod.POST)
     @ResponseBody
@@ -44,8 +45,6 @@ public class UploadController {
 
         //文件的完整名称,如spring.jpeg
         String filename = image.getOriginalFilename();
-        //文件名,如spring
-        String name = filename.substring(0, filename.indexOf("."));
         //文件后缀,如.jpeg
         String suffix = filename.substring(filename.lastIndexOf("."));
 
