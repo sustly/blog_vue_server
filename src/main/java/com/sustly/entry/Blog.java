@@ -3,6 +3,7 @@ package com.sustly.entry;
 import com.sustly.document.EsBlog;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -18,6 +19,17 @@ public class Blog {
     private String title;
     private String createUser;
     private Integer views;
+
+    private List<String> images;
+
+    @Transient
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
 
     @Id
     @Column(name = "id")

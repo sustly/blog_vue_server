@@ -2,6 +2,7 @@ package com.sustly.controller;
 
 import com.sustly.entry.Blog;
 import com.sustly.service.ArticleService;
+import com.sustly.service.BlogImageService;
 import com.sustly.util.BeanUtil;
 import com.sustly.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +23,19 @@ import java.util.Map;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final BlogImageService blogImageService;
 
     @Autowired
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleService articleService, BlogImageService blogImageService) {
         this.articleService = articleService;
+        this.blogImageService = blogImageService;
     }
 
     @PostMapping("/saveArticle")
     public void save(@RequestBody(required = false) Blog blog) {
         blog.setCreateTime(DateUtil.getLocalTime());
         articleService.save(blog);
+        blogImageService.saveAllImage(blog);
     }
 
     @PostMapping("/getArticle/{id}")
@@ -51,6 +55,7 @@ public class ArticleController {
     public Map<String, Object> delete(@PathVariable("id") Integer id) {
         HashMap<String, Object> map = new HashMap<>(1);
         articleService.delete(id);
+        blogImageService.deleteAllByBlogId(id);
         map.put("result", true);
         return map;
     }
@@ -102,6 +107,7 @@ public class ArticleController {
         Blog findBlog = articleService.findById(blog.getId());
         BeanUtil.updateBean(findBlog, blog);
         articleService.save(findBlog);
+        blogImageService.saveAllImage(findBlog);
         map.put("result", true);
         return map;
     }
