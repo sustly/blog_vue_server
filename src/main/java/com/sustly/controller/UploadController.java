@@ -75,7 +75,7 @@ public class UploadController {
             return map;
         }
         //完整的url
-        String fileUrl = "http://www.sustly.xyz:8081/blog/getImg?url=" + descFile;
+        String fileUrl = "http://localhost:8081/blog/getImg?url=" + descFile;
         log.info(fileUrl);
         map.put("result", true);
         map.put("url", fileUrl);

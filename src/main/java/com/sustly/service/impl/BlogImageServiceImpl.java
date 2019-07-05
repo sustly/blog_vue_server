@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,5 +53,15 @@ public class BlogImageServiceImpl implements BlogImageService {
             blogImage.setImageUrl(image);
             blogImageDao.save(blogImage);
         }
+    }
+
+    @Override
+    public List<String> findByBlogId(Integer id) {
+        List<BlogImage> blogImages = blogImageDao.findByBlogId(id);
+        List<String> strings = new ArrayList<>();
+        for (BlogImage blogImage: blogImages) {
+            strings.add(blogImage.getImageUrl());
+        }
+        return strings;
     }
 }

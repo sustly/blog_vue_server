@@ -3,6 +3,8 @@ package com.sustly.service;
 
 import com.sustly.entry.Blog;
 
+import java.util.List;
+
 /**
  * @author admin
  */
@@ -19,4 +21,6 @@ public interface BlogImageService {
      * @param blog blog
      */
     void saveAllImage(Blog blog);
+
+    List<String> findByBlogId(Integer id);
 }
