@@ -105,14 +105,9 @@ public class ArticleController {
     public Map<String, Object> updateArticle(@RequestBody(required = false) Blog blog) throws Exception {
         HashMap<String, Object> map = new HashMap<>(1);
         Blog findBlog = articleService.findById(blog.getId());
-        List<String> images = blogImageService.findByBlogId(findBlog.getId());
-        List<String> blogImages = blog.getImages();
-        images.addAll(blogImages);
-        BeanUtil.updateBean(findBlog, blog);
-        blogImageService.saveAllImage(findBlog);
-        findBlog.setImages(images);
-        articleService.save(findBlog);
-
+        Blog updateBean = (Blog) BeanUtil.updateBean(findBlog, blog);
+        articleService.save(updateBean);
+        blogImageService.saveAllImage(updateBean);
         map.put("result", true);
         return map;
     }
