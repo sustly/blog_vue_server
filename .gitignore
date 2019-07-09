@@ -28,6 +28,8 @@ HELP.md
 /src/test
 /.idea
 /blog_vue.iml
+/data
+/
 
 ### VS Code ###
 .vscode/
