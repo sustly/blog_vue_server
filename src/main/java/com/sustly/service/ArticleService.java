@@ -63,5 +63,19 @@ public interface ArticleService {
      */
     List<Blog> getBlogListByCategory(Integer page, String category);
 
+    /**
+     * search
+     * @param search search
+     * @param page page
+     * @return List<Blog>
+     */
     List<Blog> search(String search, Integer page);
+
+    /**
+     * getBlogListByUsernameAndPage
+     * @param page page
+     * @param username
+     * @return List<Blog>
+     */
+    List<Blog> getBlogListByUsernameAndPage(Integer page, String username);
 }

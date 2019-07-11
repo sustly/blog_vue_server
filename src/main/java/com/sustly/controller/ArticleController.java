@@ -70,6 +70,17 @@ public class ArticleController {
         return map;
     }
 
+    @PostMapping("/getArticleListByTime/{username}/{page}")
+    public Map<String, Object> getArticleByUserList(@PathVariable("username") String username,
+                                                    @PathVariable("page") Integer page) {
+        HashMap<String, Object> map = new HashMap<>(2);
+        long records = articleService.getAllCount();
+        map.put("records", records);
+        List<Blog> blogList = articleService.getBlogListByUsernameAndPage(page, username);
+        map.put("blogList", blogList);
+        return map;
+    }
+
     @PostMapping("/getArticleListByView/{page}")
     public Map<String, Object> getArticleListByTime(@PathVariable("page") Integer page) {
         HashMap<String, Object> map = new HashMap<>(2);

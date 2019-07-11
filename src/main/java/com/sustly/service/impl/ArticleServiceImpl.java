@@ -99,4 +99,16 @@ public class ArticleServiceImpl implements ArticleService {
         }
         return blogs;
     }
+
+    @Override
+    public List<Blog> getBlogListByUsernameAndPage(Integer page, String username) {
+        Sort sort=new Sort(Sort.Direction.DESC,"createTime");
+        Pageable pageable = new PageRequest(page, 10, sort);
+        Specification<Blog> specification = (root, criteriaQuery, criteriaBuilder) -> {
+            Predicate predicate = criteriaBuilder.conjunction();
+            predicate.getExpressions().add(criteriaBuilder.equal(root.get("createUser"), username));
+            return predicate;
+        };
+        return articleDao.findAll(specification, pageable).getContent();
+    }
 }
