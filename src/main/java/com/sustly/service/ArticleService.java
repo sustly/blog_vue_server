@@ -74,7 +74,7 @@ public interface ArticleService {
     /**
      * getBlogListByUsernameAndPage
      * @param page page
-     * @param username
+     * @param username username
      * @return List<Blog>
      */
     List<Blog> getBlogListByUsernameAndPage(Integer page, String username);

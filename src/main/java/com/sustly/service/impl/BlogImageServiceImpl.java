@@ -55,13 +55,4 @@ public class BlogImageServiceImpl implements BlogImageService {
         }
     }
 
-    @Override
-    public List<String> findByBlogId(Integer id) {
-        List<BlogImage> blogImages = blogImageDao.findByBlogId(id);
-        List<String> strings = new ArrayList<>();
-        for (BlogImage blogImage: blogImages) {
-            strings.add(blogImage.getImageUrl());
-        }
-        return strings;
-    }
 }

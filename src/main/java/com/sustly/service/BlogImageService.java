@@ -22,5 +22,4 @@ public interface BlogImageService {
      */
     void saveAllImage(Blog blog);
 
-    List<String> findByBlogId(Integer id);
 }
