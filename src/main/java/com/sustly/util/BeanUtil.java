@@ -1,5 +1,6 @@
 package com.sustly.util;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
@@ -22,21 +23,19 @@ public class BeanUtil {
         if(!descClass.equals(srcClass)){
             throw new Exception("源对象与目标对象类型不一致！");
         }
-        Method[] descClassDeclaredMethods = descClass.getDeclaredMethods();
-        Method[] srcClassDeclaredMethods = srcClass.getDeclaredMethods();
-        for(Method descMethod : descClassDeclaredMethods){
-            if (descMethod.getName().startsWith("get")){
-                Object invoke = descMethod.invoke(desc);
-                if ((invoke != null) && !"".equals(invoke.toString().trim())){
-                    String methodSetMethod = "set"+descMethod.getName().substring(3);
-                    for (Method srcMethod : srcClassDeclaredMethods){
-                        if (srcMethod.getName().equalsIgnoreCase(methodSetMethod)){
-                            srcMethod.invoke(src,invoke);
-                        }
-                    }
-                }
+
+        Field[] srcClassFields = srcClass.getDeclaredFields();
+        Field[] descClassFields = descClass.getDeclaredFields();
+
+        for (int i = 0; i < descClassFields.length; i++) {
+            descClassFields[i].setAccessible(true);
+            Object o = descClassFields[i].get(desc);
+            if(o != null && !"".equals(o)){
+                srcClassFields[i].setAccessible(true);
+                srcClassFields[i].set(src, o);
             }
         }
+
         return src;
     }
 }
