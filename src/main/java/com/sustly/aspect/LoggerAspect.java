@@ -32,7 +32,6 @@ public class LoggerAspect {
     public void afterReturn(JoinPoint joinPoint, Object retVal) {
         String className = joinPoint.getSignature().getName();
         className = className.substring(className.lastIndexOf(".") + 1);
-        className = getMethodChineseName(className);
         //日志记录连接点方法签名
         log.info(className+":"+joinPoint.getSignature().toString());
         //判断参数
@@ -55,27 +54,6 @@ public class LoggerAspect {
 
         log.info("参数：[{}]  返回值：[{}]", s ,retVal);
 
-    }
-
-
-    /**
-     * 判断操作的中文名
-     *
-     * @param methodName methodName
-     * @return String
-     */
-    private String getMethodChineseName(String methodName) {
-        if (methodName.startsWith("get") || methodName.startsWith("find")) {
-            return "查找数据";
-        }else if (methodName.startsWith("delete")){
-            return "删除数据";
-        } else if (methodName.startsWith("update")){
-            return "更新数据";
-        } else if (methodName.startsWith("add") || methodName.startsWith("save")){
-            return "添加数据";
-        } else {
-            return "";
-        }
     }
 
 }
