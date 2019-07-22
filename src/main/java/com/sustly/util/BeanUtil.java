@@ -29,7 +29,7 @@ public class BeanUtil {
         for (int i = 0; i < descClassFields.length; i++) {
             descClassFields[i].setAccessible(true);
             Object o = descClassFields[i].get(desc);
-            if(o != null && !"".equals(o)){
+            if(o != null && !"".equals(o.toString().trim())){
                 srcClassFields[i].setAccessible(true);
                 srcClassFields[i].set(src, o);
             }
