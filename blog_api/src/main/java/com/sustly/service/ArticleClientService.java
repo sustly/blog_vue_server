@@ -19,8 +19,8 @@ import java.util.Map;
  * @Author: liyue
  * @Date: 19-9-4 下午6:10
  */
-@FeignClient(value = "blog-article-provider-hystrix", fallback = void.class)
-public interface ArticleService {
+@FeignClient(value = "blog-article-provider-hystrix", fallbackFactory = ArticleServiceClientFallBackFactory.class)
+public interface ArticleClientService {
     @PostMapping("/saveArticle")
     void save(@RequestBody(required = false) Blog blog);
 

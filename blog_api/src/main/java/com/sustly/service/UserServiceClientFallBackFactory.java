@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
  * @Date: 19-9-4 下午6:28
  */
 @Component
-public class UserServiceFallBackFactory implements FallbackFactory<UserService> {
+public class UserServiceClientFallBackFactory implements FallbackFactory<UserClientService> {
 
     @Override
-    public UserService create(Throwable throwable) {
-        return new UserService() {
+    public UserClientService create(Throwable throwable) {
+        return new UserClientService() {
             @Override
             public User register(User user) {
                 return null;

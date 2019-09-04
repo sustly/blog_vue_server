@@ -1,7 +1,7 @@
 package com.sustly.controller;
 
 import com.sustly.entry.User;
-import com.sustly.service.UserService;
+import com.sustly.service.UserClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date: 19-9-4 下午5:54
  */
 @RestController
-public class AdminController {
-    private final UserService userService;
+public class ConsumerAdminController {
+    private final UserClientService userService;
 
     @Autowired
-    public AdminController(UserService userService) {
+    public ConsumerAdminController(UserClientService userService) {
         this.userService = userService;
     }
 

@@ -1,16 +1,9 @@
 package com.sustly.controller;
 
 import com.sustly.entry.Blog;
-import com.sustly.service.ArticleService;
+import com.sustly.service.ArticleClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,12 +15,12 @@ import java.util.Map;
  * @Date: 19-9-4 下午6:09
  */
 @RestController
-public class ArticleController {
+public class ConsumerArticleController {
 
-    private final ArticleService articleService;
+    private final ArticleClientService articleService;
 
     @Autowired
-    public ArticleController(ArticleService articleService) {
+    public ConsumerArticleController(ArticleClientService articleService) {
         this.articleService = articleService;
     }
 

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @Author: liyue
  * @Date: 19-9-4 下午5:55
  */
-@FeignClient(value = "blog-admin-provider-hystrix", fallback=void.class)
-public interface UserService {
+@FeignClient(value = "blog-admin-provider-hystrix", fallbackFactory=UserServiceClientFallBackFactory.class)
+public interface UserClientService {
 
     @PostMapping("/register")
     User register(@RequestBody User user);

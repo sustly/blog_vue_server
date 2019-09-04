@@ -14,10 +14,10 @@ import java.util.Map;
  * @Date: 19-9-4 下午6:29
  */
 @Component
-public class ArticleServiceFallBackFactory implements FallbackFactory<ArticleService> {
+public class ArticleServiceClientFallBackFactory implements FallbackFactory<ArticleClientService> {
     @Override
-    public ArticleService create(Throwable throwable) {
-        return new ArticleService() {
+    public ArticleClientService create(Throwable throwable) {
+        return new ArticleClientService() {
             @Override
             public void save(Blog blog) {
 
