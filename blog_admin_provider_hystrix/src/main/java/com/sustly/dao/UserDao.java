@@ -3,6 +3,7 @@ package com.sustly.dao;
 import com.sustly.entry.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 /**
@@ -13,11 +14,11 @@ import org.apache.ibatis.annotations.Select;
 public interface UserDao {
 
     @Select("select * from user where username=#{username}")
-    User findByUsername(String username);
+    User findByUsername(@Param("username") String username);
 
     @Insert("insert into user(username, password, create_time, last_login_time) values (#{username}, #{password}, #{createTime}, #{lastLoginTime})")
     void save(User user);
 
     @Select("select * from user where username=#{username} and password=#{password}")
-    User findByUsernameAndPassword(String username, String password);
+    User findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 }
