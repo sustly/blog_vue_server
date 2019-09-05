@@ -1,6 +1,7 @@
 package com.sustly.service;
 
 import com.sustly.entry.User;
+import com.sustly.util.ResponseMsg;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface UserClientService {
 
     @PostMapping("/register")
-    User register(@RequestBody User user);
+    ResponseMsg<User> register(@RequestBody User user);
     @PostMapping("/login")
-    User login(@RequestBody User user);
+    ResponseMsg<User> login(@RequestBody User user);
 }

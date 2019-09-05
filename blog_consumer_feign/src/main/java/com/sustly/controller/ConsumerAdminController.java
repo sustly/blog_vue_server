@@ -2,6 +2,7 @@ package com.sustly.controller;
 
 import com.sustly.entry.User;
 import com.sustly.service.UserClientService;
+import com.sustly.util.ResponseMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,12 +23,12 @@ public class ConsumerAdminController {
 
 
     @PostMapping("/register")
-    public User register(@RequestBody User user){
+    public ResponseMsg<User> register(@RequestBody User user){
         return userService.register(user);
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User user){
+    public ResponseMsg<User> login(@RequestBody User user){
         return userService.login(user);
     }
 }
