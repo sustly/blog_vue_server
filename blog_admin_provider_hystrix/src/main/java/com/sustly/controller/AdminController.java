@@ -27,7 +27,7 @@ public class AdminController {
     public User register(@RequestBody User user){
         User userFind = userService.findByUsername(user.getUsername());
         if(userFind != null){
-            return null;
+            throw new RuntimeException();
         }else {
             User newUser = new User();
             newUser.setUsername(user.getUsername());
@@ -42,6 +42,10 @@ public class AdminController {
 
     @PostMapping("/login")
     public User login(@RequestBody User user){
-        return userService.findByUsernameAndPassword(user);
+        User userFind = userService.findByUsernameAndPassword(user);
+        if (userFind == null){
+            throw new RuntimeException();
+        }
+        return userFind;
     }
 }

@@ -16,12 +16,12 @@ public class UserServiceClientFallBackFactory implements FallbackFactory<UserCli
         return new UserClientService() {
             @Override
             public User register(User user) {
-                return null;
+                return new User(0,null,null, null, null);
             }
 
             @Override
             public User login(User user) {
-                return null;
+                return new User(0,null,null, null, null);
             }
         };
     }
