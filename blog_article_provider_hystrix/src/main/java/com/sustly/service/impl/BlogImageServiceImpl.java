@@ -46,6 +46,7 @@ public class BlogImageServiceImpl implements BlogImageService {
             return;
         }
         List<String> images = blog.getImages();
+        blogImageDao.deleteAllByBlogId(blog.getId());
         for (String image : images){
             BlogImage blogImage = new BlogImage();
             blogImage.setBlogId(blog.getId());

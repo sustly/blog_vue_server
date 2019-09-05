@@ -34,8 +34,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void save(Blog blog) {
-        articleDao.save(blog);
-        repository.save(new EsBlog(blog));
+        if (blog.getId() == null) {
+            articleDao.save(blog);
+            repository.save(new EsBlog(blog));
+        }else {
+            articleDao.update(blog);
+            repository.save(new EsBlog(blog));
+        }
     }
 
     @Override

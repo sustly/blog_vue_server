@@ -38,4 +38,7 @@ public interface ArticleDao {
 
     @Select("select * from blog where create_user=#{username} order by create_time desc limit #{startRow}, #{pageSize}")
     List<Blog> findAllPageByCategoryAndUsername(@Param("username") String username, @Param("startRow") Integer startRow, @Param("pageSize") int pageSize);
+
+    @Update("update blog set title=#{title}, category=#{category}, content=#{content}, views=#{views} where id=#{id}")
+    void update(Blog blog);
 }
