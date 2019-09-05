@@ -21,12 +21,12 @@ public class ConsumerAdminController {
     }
 
 
-    @PostMapping("/blog/register")
+    @PostMapping("/register")
     public User register(@RequestBody User user){
         return userService.register(user);
     }
 
-    @PostMapping("/blog/login")
+    @PostMapping("/login")
     public User login(@RequestBody User user){
         return userService.login(user);
     }

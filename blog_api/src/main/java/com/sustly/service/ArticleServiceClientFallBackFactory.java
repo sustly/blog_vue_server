@@ -1,12 +1,12 @@
 package com.sustly.service;
 
+import com.google.common.collect.Maps;
 import com.sustly.entry.Blog;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -25,7 +25,7 @@ public class ArticleServiceClientFallBackFactory implements FallbackFactory<Arti
 
             @Override
             public Blog get(Integer id) {
-                return null;
+                return new Blog(0, null, null, null, null, null, null, null);
             }
 
             @Override
@@ -35,22 +35,22 @@ public class ArticleServiceClientFallBackFactory implements FallbackFactory<Arti
 
             @Override
             public Map<String, Object> getArticleList(Integer page) {
-                return null;
+                return Maps.newHashMap();
             }
 
             @Override
             public Map<String, Object> getArticleByUserList(String username, Integer page) {
-                return null;
+                return Maps.newHashMap();
             }
 
             @Override
             public Map<String, Object> getArticleListByTime(Integer page) {
-                return null;
+                return Maps.newHashMap();
             }
 
             @Override
             public Map<String, Object> getArticleListByCategory(String category, Integer page) {
-                return null;
+                return Maps.newHashMap();
             }
 
             @Override
@@ -59,22 +59,22 @@ public class ArticleServiceClientFallBackFactory implements FallbackFactory<Arti
             }
 
             @Override
-            public void updateArticle(Blog blog) throws Exception {
+            public void updateArticle(Blog blog) {
 
             }
 
             @Override
             public Map<String, Object> getArticleListBySearch(String search, Integer page) {
-                return null;
+                return Maps.newHashMap();
             }
 
             @Override
             public Map<String, Object> uploadFile(MultipartFile image) {
-                return null;
+                return Maps.newHashMap();
             }
 
             @Override
-            public void getFile(String url, HttpServletResponse response) throws IOException {
+            public void getFile(String url, HttpServletResponse response) {
 
             }
         };
