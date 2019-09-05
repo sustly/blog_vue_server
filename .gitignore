@@ -29,6 +29,7 @@ HELP.md
 /.idea
 **build/
 **/target/
+**/test
 **/*.iml
 /blog_vue.iml
 /data
