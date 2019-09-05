@@ -7,7 +7,6 @@ import lombok.Data;
  * @Date: 19-9-5 下午5:58
  */
 @Data
-@SuppressWarnings("unchecked")
 public class ResponseMsg {
 
     private boolean result;
