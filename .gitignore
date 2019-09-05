@@ -27,6 +27,9 @@ HELP.md
 /target
 /src/test
 /.idea
+**build/
+**/target/
+**/*.iml
 /blog_vue.iml
 /data
 ### VS Code ###
