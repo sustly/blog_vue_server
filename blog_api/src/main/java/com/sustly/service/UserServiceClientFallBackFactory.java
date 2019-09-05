@@ -1,8 +1,7 @@
 package com.sustly.service;
 
-import com.google.common.collect.Lists;
 import com.sustly.entry.User;
-import com.sustly.util.ResponseMsg;
+import com.sustly.dto.ResponseMsg;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
@@ -17,15 +16,15 @@ public class UserServiceClientFallBackFactory implements FallbackFactory<UserCli
     public UserClientService create(Throwable throwable) {
         return new UserClientService() {
             @Override
-            public ResponseMsg<User> register(User user) {
+            public ResponseMsg register(User user) {
                 User userBack = new User(0,null,null, null, null);
-                return ResponseMsg.onOk(userBack, Lists.newArrayList(),false);
+                return ResponseMsg.onOk(userBack,false);
             }
 
             @Override
-            public ResponseMsg<User> login(User user) {
+            public ResponseMsg login(User user) {
                 User userBack = new User(0,null,null, null, null);
-                return ResponseMsg.onOk(userBack, Lists.newArrayList(),false);
+                return ResponseMsg.onOk(userBack,false);
             }
         };
     }

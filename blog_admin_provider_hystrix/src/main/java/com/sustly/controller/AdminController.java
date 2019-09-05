@@ -4,8 +4,7 @@ import com.sustly.entry.User;
 import com.sustly.service.UserService;
 import com.sustly.util.DateUtil;
 import com.sustly.util.Md5Util;
-import com.sustly.util.ResponseMsg;
-import org.assertj.core.util.Lists;
+import com.sustly.dto.ResponseMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +25,7 @@ public class AdminController {
     }
 
     @PostMapping("/register")
-    public ResponseMsg<User> register(@RequestBody User user){
+    public ResponseMsg register(@RequestBody User user){
         User userFind = userService.findByUsername(user.getUsername());
         if(userFind != null){
             throw new RuntimeException();
@@ -36,19 +35,19 @@ public class AdminController {
             newUser.setPassword(Md5Util.encrypt(user.getPassword()));
             newUser.setCreateTime(DateUtil.getLocalTime());
             userService.save(newUser);
-            return ResponseMsg.onOk(newUser,Lists.newArrayList(), true);
+            return ResponseMsg.onOk(newUser, true);
         }
 
 
     }
 
     @PostMapping("/login")
-    public ResponseMsg<User> login(@RequestBody User user){
+    public ResponseMsg login(@RequestBody User user){
         User userFind = userService.findByUsernameAndPassword(user);
         if (userFind == null){
             throw new RuntimeException();
         }
-        ResponseMsg<User> userResponseMsg = ResponseMsg.onOk(userFind, Lists.newArrayList(), true);
+        ResponseMsg userResponseMsg = ResponseMsg.onOk(userFind, true);
         return userResponseMsg;
     }
 }
