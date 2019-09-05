@@ -1,6 +1,7 @@
 package com.sustly.service;
 
 import com.google.common.collect.Maps;
+import com.sustly.dto.ResponseMsg;
 import com.sustly.entry.Blog;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
@@ -24,8 +25,8 @@ public class ArticleServiceClientFallBackFactory implements FallbackFactory<Arti
             }
 
             @Override
-            public Blog get(Integer id) {
-                return new Blog(0, null, null, null, null, null, null, null);
+            public ResponseMsg get(Integer id) {
+                return ResponseMsg.onOk("博客找不到了！", false);
             }
 
             @Override
@@ -34,23 +35,23 @@ public class ArticleServiceClientFallBackFactory implements FallbackFactory<Arti
             }
 
             @Override
-            public Map<String, Object> getArticleList(Integer page) {
-                return Maps.newHashMap();
+            public ResponseMsg getArticleList(Integer page) {
+                return ResponseMsg.onOk("没有页数了！！", false);
             }
 
             @Override
-            public Map<String, Object> getArticleByUserList(String username, Integer page) {
-                return Maps.newHashMap();
+            public ResponseMsg getArticleByUserList(String username, Integer page) {
+                return ResponseMsg.onOk("没有页数了！", false);
             }
 
             @Override
-            public Map<String, Object> getArticleListByTime(Integer page) {
-                return Maps.newHashMap();
+            public ResponseMsg getArticleListByTime(Integer page) {
+                return ResponseMsg.onOk("没有页数了！", false);
             }
 
             @Override
-            public Map<String, Object> getArticleListByCategory(String category, Integer page) {
-                return Maps.newHashMap();
+            public ResponseMsg getArticleListByCategory(String category, Integer page) {
+                return ResponseMsg.onOk("没有页数了！", false);
             }
 
             @Override
@@ -64,13 +65,14 @@ public class ArticleServiceClientFallBackFactory implements FallbackFactory<Arti
             }
 
             @Override
-            public Map<String, Object> getArticleListBySearch(String search, Integer page) {
-                return Maps.newHashMap();
+            public ResponseMsg getArticleListBySearch(String search, Integer page) {
+                return ResponseMsg.onOk("找不到与"+search+"有关的数据！", false);
             }
 
             @Override
-            public Map<String, Object> uploadFile(MultipartFile image) {
-                return Maps.newHashMap();
+            public ResponseMsg
+            uploadFile(MultipartFile image) {
+                return ResponseMsg.onOk("上传失败！", false);
             }
 
             @Override

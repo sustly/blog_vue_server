@@ -1,5 +1,6 @@
 package com.sustly.controller;
 
+import com.sustly.dto.ResponseMsg;
 import com.sustly.entry.Blog;
 import com.sustly.service.ArticleClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * @Author: liyue
@@ -30,7 +30,7 @@ public class ConsumerArticleController {
     }
 
     @PostMapping("/getArticle/{id}")
-    public Blog get(@PathVariable("id") Integer id){
+    public ResponseMsg get(@PathVariable("id") Integer id){
         return articleService.get(id);
     }
 
@@ -39,21 +39,21 @@ public class ConsumerArticleController {
         articleService.delete(id);
     }
     @PostMapping("/getArticleListByTime/{page}")
-    public Map<String, Object> getArticleList(@PathVariable("page") Integer page){
+    public ResponseMsg getArticleList(@PathVariable("page") Integer page){
         return articleService.getArticleList(page);
     }
     @PostMapping("/getArticleListByTime/{username}/{page}")
-    public Map<String, Object> getArticleByUserList(@PathVariable("username") String username,
+    public ResponseMsg getArticleByUserList(@PathVariable("username") String username,
                                              @PathVariable("page") Integer page){
         return articleService.getArticleByUserList(username,page);
     }
     @PostMapping("/getArticleListByView/{page}")
-    public Map<String, Object> getArticleListByTime(@PathVariable("page") Integer page){
+    public ResponseMsg getArticleListByTime(@PathVariable("page") Integer page){
         return articleService.getArticleListByTime(page);
     }
 
     @PostMapping("/getArticleListByCategory/{category}/{page}")
-    public Map<String, Object> getArticleListByCategory(@PathVariable("category") String category,
+    public ResponseMsg getArticleListByCategory(@PathVariable("category") String category,
                                                  @PathVariable("page") Integer page){
         return articleService.getArticleListByCategory(category,page);
     }
@@ -68,13 +68,13 @@ public class ConsumerArticleController {
     }
 
     @PostMapping("/getArticleListBySearch/{search}/{page}")
-    public Map<String, Object> getArticleListBySearch(@PathVariable("search") String search,
+    public ResponseMsg getArticleListBySearch(@PathVariable("search") String search,
                                                @PathVariable("page") Integer page){
         return articleService.getArticleListBySearch(search, page);
     }
     @RequestMapping(value = "/uploadImg", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> uploadFile(MultipartFile image){
+    public ResponseMsg uploadFile(MultipartFile image){
         return articleService.uploadFile(image);
     }
 

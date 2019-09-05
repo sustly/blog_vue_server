@@ -61,13 +61,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Blog> getBlogListByPage(Integer page) {
-        int startRow = (page - 1) * 10;
+        int startRow = page * 10;
         return articleDao.findAllPageByCreateTime(startRow, 10);
     }
 
     @Override
     public List<Blog> getBlogListByView(Integer page) {
-        int startRow = (page - 1) * 10;
+        int startRow = page * 10;
         return articleDao.findAllPageByViews(startRow, 10);
     }
 
@@ -78,7 +78,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Blog> getBlogListByCategory(Integer page, String category) {
-        int startRow = (page - 1) * 10;
+        int startRow = page * 10;
         return articleDao.findAllPageByCategoryAndCreateTime(category, startRow, 10);
     }
 
@@ -97,7 +97,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Blog> getBlogListByUsernameAndPage(Integer page, String username) {
-        int startRow = (page - 1) * 10;
+        int startRow = page * 10;
         return articleDao.findAllPageByCategoryAndUsername(username, startRow, 10);
     }
 }

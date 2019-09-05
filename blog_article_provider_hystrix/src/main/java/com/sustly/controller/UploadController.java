@@ -1,5 +1,7 @@
 package com.sustly.controller;
 
+import com.sustly.dto.Pagination;
+import com.sustly.dto.ResponseMsg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +34,7 @@ public class UploadController {
      */
     @RequestMapping(value = "/uploadImg", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> uploadFile(MultipartFile image) {
+    public ResponseMsg uploadFile(MultipartFile image) {
 
         Map<String, Object> map = new HashMap<>(2);
         //本地使用,上传位置
@@ -72,14 +74,12 @@ public class UploadController {
             e.printStackTrace();
             log.error("上传失败，cause:{}", e);
             map.put("result", false);
-            return map;
+            return ResponseMsg.onOk("上传失败", false);
         }
         //完整的url
         String fileUrl = "/api/blog/getImg?url=" + descFile;
         log.info(fileUrl);
-        map.put("result", true);
-        map.put("url", fileUrl);
-        return map;
+        return ResponseMsg.onOk(fileUrl, true);
     }
 
     @RequestMapping(value = "/getImg", method = RequestMethod.GET)

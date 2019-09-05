@@ -1,5 +1,7 @@
 package com.sustly.controller;
 
+import com.sustly.dto.Pagination;
+import com.sustly.dto.ResponseMsg;
 import com.sustly.entry.Blog;
 import com.sustly.service.ArticleService;
 import com.sustly.service.BlogImageService;
@@ -11,9 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author liyue
@@ -39,8 +39,9 @@ public class ArticleController {
     }
 
     @PostMapping("/getArticle/{id}")
-    public Blog get(@PathVariable("id") Integer id) {
-        return articleService.findById(id);
+    public ResponseMsg get(@PathVariable("id") Integer id) {
+        Blog blog = articleService.findById(id);
+        return ResponseMsg.onOk(blog, true);
     }
 
     @PostMapping("/deleteArticle/{id}")
@@ -50,45 +51,34 @@ public class ArticleController {
     }
 
     @PostMapping("/getArticleListByTime/{page}")
-    public Map<String, Object> getArticleList(@PathVariable("page") Integer page) {
-        HashMap<String, Object> map = new HashMap<>(2);
-        long records = articleService.getAllCount();
-        map.put("records", records);
+    public ResponseMsg getArticleList(@PathVariable("page") Integer page) {
+        Long records = articleService.getAllCount();
         List<Blog> blogList = articleService.getBlogListByPage(page);
-        map.put("blogList", blogList);
-        return map;
+
+        return ResponseMsg.onOk(new Pagination(records.intValue(), blogList), true);
     }
 
     @PostMapping("/getArticleListByTime/{username}/{page}")
-    public Map<String, Object> getArticleByUserList(@PathVariable("username") String username,
+    public ResponseMsg getArticleByUserList(@PathVariable("username") String username,
                                                     @PathVariable("page") Integer page) {
-        HashMap<String, Object> map = new HashMap<>(2);
-        long records = articleService.getAllCount();
-        map.put("records", records);
+        Long records = articleService.getAllCount();
         List<Blog> blogList = articleService.getBlogListByUsernameAndPage(page, username);
-        map.put("blogList", blogList);
-        return map;
+        return ResponseMsg.onOk(new Pagination(records.intValue(), blogList), true);
     }
 
     @PostMapping("/getArticleListByView/{page}")
-    public Map<String, Object> getArticleListByTime(@PathVariable("page") Integer page) {
-        HashMap<String, Object> map = new HashMap<>(2);
-        long records = articleService.getAllCount();
-        map.put("records", records);
+    public ResponseMsg getArticleListByTime(@PathVariable("page") Integer page) {
+        Long records = articleService.getAllCount();
         List<Blog> blogList = articleService.getBlogListByView(page);
-        map.put("blogList", blogList);
-        return map;
+        return ResponseMsg.onOk(new Pagination(records.intValue(), blogList), true);
     }
 
     @PostMapping("/getArticleListByCategory/{category}/{page}")
-    public Map<String, Object> getArticleListByCategory(@PathVariable("category") String category,
+    public ResponseMsg getArticleListByCategory(@PathVariable("category") String category,
                                                         @PathVariable("page") Integer page) {
-        HashMap<String, Object> map = new HashMap<>(2);
-        long records = articleService.getAllCountByCategory(category);
-        map.put("records", records);
+        Long records = articleService.getAllCountByCategory(category);
         List<Blog> blogList = articleService.getBlogListByCategory(page, category);
-        map.put("blogList", blogList);
-        return map;
+        return ResponseMsg.onOk(new Pagination(records.intValue(), blogList), true);
     }
 
     @PostMapping("/view/{id}")
@@ -110,14 +100,10 @@ public class ArticleController {
     }
 
     @PostMapping("/getArticleListBySearch/{search}/{page}")
-    public Map<String, Object> getArticleListBySearch(@PathVariable("search") String search,
+    public ResponseMsg getArticleListBySearch(@PathVariable("search") String search,
                                                       @PathVariable("page") Integer page) {
 
-
-        HashMap<String, Object> map = new HashMap<>(1);
         List<Blog> blogList = articleService.search(search, page);
-        map.put("records", blogList.size());
-        map.put("blogList", blogList);
-        return map;
+        return ResponseMsg.onOk(new Pagination(blogList.size(), blogList), true);
     }
 }

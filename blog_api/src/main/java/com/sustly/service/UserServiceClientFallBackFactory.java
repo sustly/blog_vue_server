@@ -17,14 +17,12 @@ public class UserServiceClientFallBackFactory implements FallbackFactory<UserCli
         return new UserClientService() {
             @Override
             public ResponseMsg register(User user) {
-                User userBack = new User(0,null,null, null, null);
-                return ResponseMsg.onOk(userBack,false);
+                return ResponseMsg.onOk("该用户名已被占用！",false);
             }
 
             @Override
             public ResponseMsg login(User user) {
-                User userBack = new User(0,null,null, null, null);
-                return ResponseMsg.onOk(userBack,false);
+                return ResponseMsg.onOk("用户不存在！",false);
             }
         };
     }

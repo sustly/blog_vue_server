@@ -47,7 +47,6 @@ public class AdminController {
         if (userFind == null){
             throw new RuntimeException();
         }
-        ResponseMsg userResponseMsg = ResponseMsg.onOk(userFind, true);
-        return userResponseMsg;
+        return ResponseMsg.onOk(userFind, true);
     }
 }
