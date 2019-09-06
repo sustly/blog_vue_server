@@ -1,6 +1,5 @@
 package com.sustly.service;
 
-import com.google.common.collect.Maps;
 import com.sustly.dto.ResponseMsg;
 import com.sustly.entry.Blog;
 import feign.hystrix.FallbackFactory;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  * @Author: liyue
@@ -26,7 +24,7 @@ public class ArticleServiceClientFallBackFactory implements FallbackFactory<Arti
 
             @Override
             public ResponseMsg get(Integer id) {
-                return ResponseMsg.onOk("博客找不到了！", false);
+                return ResponseMsg.onFail("博客找不到了！");
             }
 
             @Override
@@ -36,22 +34,22 @@ public class ArticleServiceClientFallBackFactory implements FallbackFactory<Arti
 
             @Override
             public ResponseMsg getArticleList(Integer page) {
-                return ResponseMsg.onOk("没有页数了！！", false);
+                return ResponseMsg.onFail("没有页数了！！");
             }
 
             @Override
             public ResponseMsg getArticleByUserList(String username, Integer page) {
-                return ResponseMsg.onOk("没有页数了！", false);
+                return ResponseMsg.onFail("没有页数了！");
             }
 
             @Override
             public ResponseMsg getArticleListByTime(Integer page) {
-                return ResponseMsg.onOk("没有页数了！", false);
+                return ResponseMsg.onFail("没有页数了！");
             }
 
             @Override
             public ResponseMsg getArticleListByCategory(String category, Integer page) {
-                return ResponseMsg.onOk("没有页数了！", false);
+                return ResponseMsg.onFail("没有页数了！");
             }
 
             @Override
@@ -66,13 +64,13 @@ public class ArticleServiceClientFallBackFactory implements FallbackFactory<Arti
 
             @Override
             public ResponseMsg getArticleListBySearch(String search, Integer page) {
-                return ResponseMsg.onOk("找不到与"+search+"有关的数据！", false);
+                return ResponseMsg.onFail("找不到与"+search+"有关的数据！");
             }
 
             @Override
             public ResponseMsg
             uploadFile(MultipartFile image) {
-                return ResponseMsg.onOk("上传失败！", false);
+                return ResponseMsg.onFail("上传失败！");
             }
 
             @Override

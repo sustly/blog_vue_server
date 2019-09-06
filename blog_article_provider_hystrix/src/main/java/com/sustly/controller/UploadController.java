@@ -1,6 +1,5 @@
 package com.sustly.controller;
 
-import com.sustly.dto.Pagination;
 import com.sustly.dto.ResponseMsg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -74,12 +73,12 @@ public class UploadController {
             e.printStackTrace();
             log.error("上传失败，cause:{}", e);
             map.put("result", false);
-            return ResponseMsg.onOk("上传失败", false);
+            return ResponseMsg.onOk("上传失败");
         }
         //完整的url
         String fileUrl = "/api/blog/getImg?url=" + descFile;
         log.info(fileUrl);
-        return ResponseMsg.onOk(fileUrl, true);
+        return ResponseMsg.onOk(fileUrl);
     }
 
     @RequestMapping(value = "/getImg", method = RequestMethod.GET)

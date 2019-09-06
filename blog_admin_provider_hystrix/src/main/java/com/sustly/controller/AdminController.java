@@ -35,7 +35,7 @@ public class AdminController {
             newUser.setPassword(Md5Util.encrypt(user.getPassword()));
             newUser.setCreateTime(DateUtil.getLocalTime());
             userService.save(newUser);
-            return ResponseMsg.onOk(newUser, true);
+            return ResponseMsg.onOk(newUser);
         }
 
 
@@ -47,6 +47,6 @@ public class AdminController {
         if (userFind == null){
             throw new RuntimeException();
         }
-        return ResponseMsg.onOk(userFind, true);
+        return ResponseMsg.onOk(userFind);
     }
 }

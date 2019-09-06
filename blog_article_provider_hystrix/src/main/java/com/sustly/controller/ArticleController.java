@@ -41,7 +41,7 @@ public class ArticleController {
     @PostMapping("/getArticle/{id}")
     public ResponseMsg get(@PathVariable("id") Integer id) {
         Blog blog = articleService.findById(id);
-        return ResponseMsg.onOk(blog, true);
+        return ResponseMsg.onOk(blog);
     }
 
     @PostMapping("/deleteArticle/{id}")
@@ -55,7 +55,7 @@ public class ArticleController {
         Long records = articleService.getAllCount();
         List<Blog> blogList = articleService.getBlogListByPage(page);
 
-        return ResponseMsg.onOk(new Pagination(records.intValue(), blogList), true);
+        return ResponseMsg.onOk(new Pagination(records.intValue(), blogList));
     }
 
     @PostMapping("/getArticleListByTime/{username}/{page}")
@@ -63,14 +63,14 @@ public class ArticleController {
                                                     @PathVariable("page") Integer page) {
         Long records = articleService.getAllCount();
         List<Blog> blogList = articleService.getBlogListByUsernameAndPage(page, username);
-        return ResponseMsg.onOk(new Pagination(records.intValue(), blogList), true);
+        return ResponseMsg.onOk(new Pagination(records.intValue(), blogList));
     }
 
     @PostMapping("/getArticleListByView/{page}")
     public ResponseMsg getArticleListByTime(@PathVariable("page") Integer page) {
         Long records = articleService.getAllCount();
         List<Blog> blogList = articleService.getBlogListByView(page);
-        return ResponseMsg.onOk(new Pagination(records.intValue(), blogList), true);
+        return ResponseMsg.onOk(new Pagination(records.intValue(), blogList));
     }
 
     @PostMapping("/getArticleListByCategory/{category}/{page}")
@@ -78,7 +78,7 @@ public class ArticleController {
                                                         @PathVariable("page") Integer page) {
         Long records = articleService.getAllCountByCategory(category);
         List<Blog> blogList = articleService.getBlogListByCategory(page, category);
-        return ResponseMsg.onOk(new Pagination(records.intValue(), blogList), true);
+        return ResponseMsg.onOk(new Pagination(records.intValue(), blogList));
     }
 
     @PostMapping("/view/{id}")
@@ -104,6 +104,6 @@ public class ArticleController {
                                                       @PathVariable("page") Integer page) {
 
         List<Blog> blogList = articleService.search(search, page);
-        return ResponseMsg.onOk(new Pagination(blogList.size(), blogList), true);
+        return ResponseMsg.onOk(new Pagination(blogList.size(), blogList));
     }
 }

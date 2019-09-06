@@ -13,10 +13,17 @@ public class ResponseMsg {
     private Object data;
 
 
-    public static ResponseMsg onOk(Object data, boolean result){
+    public static ResponseMsg onOk(Object data){
         ResponseMsg msg = new ResponseMsg();
         msg.data = data;
-        msg.result = result;
+        msg.result = true;
+        return msg;
+    }
+
+    public static ResponseMsg onFail(Object data){
+        ResponseMsg msg = new ResponseMsg();
+        msg.data = data;
+        msg.result = false;
         return msg;
     }
 }
