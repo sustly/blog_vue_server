@@ -73,7 +73,7 @@ public class UploadController {
             e.printStackTrace();
             log.error("上传失败，cause:{}", e);
             map.put("result", false);
-            return ResponseMsg.onOk("上传失败");
+            return ResponseMsg.onFail("上传失败");
         }
         //完整的url
         String fileUrl = "/api/blog/getImg?url=" + descFile;
