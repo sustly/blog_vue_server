@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
  * @Date: 19-9-4 下午5:51
  */
 @Configuration
-public class FeignConfig {
+public class RobinConfig {
     @Bean
     @LoadBalanced
     public RestTemplate getRestTemplate(){
