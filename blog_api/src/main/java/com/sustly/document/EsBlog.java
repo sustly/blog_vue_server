@@ -4,8 +4,6 @@ import com.sustly.entry.Blog;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldIndex;
 
 import java.io.Serializable;
 
@@ -20,16 +18,12 @@ import java.io.Serializable;
 public class EsBlog implements Serializable {
     @Id
     private Integer id;
-    @Field(index = FieldIndex.not_analyzed)
     private Integer blogId;
     private String content;
-    @Field(index = FieldIndex.not_analyzed)
     private String createTime;
     private String category;
     private String title;
-    @Field(index = FieldIndex.not_analyzed)
     private String createUser;
-    @Field(index = FieldIndex.not_analyzed)
     private Integer views;
 
     protected EsBlog() {

@@ -1,8 +1,8 @@
 package com.sustly.service;
 
-import com.sustly.entry.User;
 import com.sustly.dto.ResponseMsg;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import com.sustly.entry.User;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
