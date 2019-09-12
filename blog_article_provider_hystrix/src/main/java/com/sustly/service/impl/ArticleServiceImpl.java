@@ -85,7 +85,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Blog> search(String search, Integer page) {
         Sort sort=new Sort(Sort.Direction.DESC,"createTime");
-        Pageable pageable = new PageRequest(page, 10, sort);
+        Pageable pageable = PageRequest.of(page, 10, sort);
         List<EsBlog> esBlogs = repository.findDistinctByContentContainingOrTitleContainingOrCategoryContaining(search, search, search, pageable).getContent();
         List<Blog> blogs = new ArrayList<>(50);
         for (EsBlog esBlog : esBlogs){
