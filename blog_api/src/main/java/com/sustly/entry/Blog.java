@@ -1,12 +1,10 @@
 package com.sustly.entry;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sustly.document.EsBlog;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.springframework.data.annotation.Transient;
 
 import java.util.List;
 
@@ -27,17 +25,7 @@ public class Blog {
     private String createUser;
     private Integer views;
 
-    @Transient
     @JsonIgnore
     private List<String> images;
-    public Blog(EsBlog esBlog){
-        this.category = esBlog.getCategory();
-        this.content = esBlog.getContent();
-        this.id = esBlog.getBlogId();
-        this.title = esBlog.getTitle();
-        this.views = esBlog.getViews();
-        this.createTime = esBlog.getCreateTime();
-        this.createUser= esBlog.getCreateUser();
-    }
 
 }

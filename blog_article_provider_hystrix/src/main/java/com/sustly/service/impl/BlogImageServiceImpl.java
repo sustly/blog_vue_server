@@ -6,8 +6,8 @@ import com.sustly.entry.BlogImage;
 import com.sustly.service.BlogImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.io.File;
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2019/7/5 16:33
  */
 @Service
-@Transactional(rollbackOn = {Exception.class})
+@Transactional(rollbackFor = {Exception.class})
 public class BlogImageServiceImpl implements BlogImageService {
 
     private final BlogImageDao blogImageDao;

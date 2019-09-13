@@ -1,45 +1,49 @@
 package com.sustly.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.sustly.dao.ArticleDao;
-import com.sustly.dao.BlogElasticsearchRepository;
-import com.sustly.document.EsBlog;
+import com.sustly.dto.EsPage;
 import com.sustly.entry.Blog;
 import com.sustly.service.ArticleService;
+import com.sustly.util.EsUtil;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liyue
  * @date 2019/6/20 15:46
  */
 @Service
-@Transactional(rollbackOn = {Exception.class})
+@Transactional(rollbackFor = {Exception.class})
 public class ArticleServiceImpl implements ArticleService {
 
+    private final String ES_TYPE = "article";
+    private final String ES_INDEX = "article";
     private final ArticleDao articleDao;
-    private final BlogElasticsearchRepository repository;
 
     @Autowired
-    public ArticleServiceImpl(ArticleDao articleDao, BlogElasticsearchRepository repository) {
+    public ArticleServiceImpl(ArticleDao articleDao) {
         this.articleDao = articleDao;
-        this.repository = repository;
     }
 
     @Override
     public void save(Blog blog) {
+        String jsonString = JSONObject.toJSONString(blog);
+        JSONObject jsonObject = JSONObject.parseObject(jsonString);
         if (blog.getId() == null) {
             articleDao.save(blog);
-            repository.save(new EsBlog(blog));
+            EsUtil.addData(jsonObject ,ES_INDEX, ES_TYPE, blog.getId().toString());
         }else {
             articleDao.update(blog);
-            repository.save(new EsBlog(blog));
+            EsUtil.updateDataById(jsonObject ,ES_INDEX, ES_TYPE, blog.getId().toString());
         }
     }
 
@@ -51,7 +55,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void delete(Integer id) {
         articleDao.deleteById(id);
-        repository.deleteByBlogId(id);
+      //  repository.deleteByBlogId(id);
     }
 
     @Override
@@ -84,15 +88,22 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Blog> search(String search, Integer page) {
-        Sort sort=new Sort(Sort.Direction.DESC,"createTime");
-        Pageable pageable = PageRequest.of(page, 10, sort);
-        List<EsBlog> esBlogs = repository.findDistinctByContentContainingOrTitleContainingOrCategoryContaining(search, search, search, pageable).getContent();
-        List<Blog> blogs = new ArrayList<>(50);
-        for (EsBlog esBlog : esBlogs){
-            Blog blog = new Blog(esBlog);
-            blogs.add(blog);
+        int startRow = page * 10;
+        BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
+        queryBuilder.must(QueryBuilders.matchQuery("title", search));
+        queryBuilder.must(QueryBuilders.matchQuery("category", search));
+        queryBuilder.must(QueryBuilders.matchQuery("content", search));
+        EsPage esPage = EsUtil.searchDataPage(ES_INDEX, ES_TYPE, startRow, 10, queryBuilder, null, null, null);
+        if (esPage == null){
+            return null;
         }
-        return blogs;
+        List<Map<String, Object>> recordList = esPage.getRecordList();
+        List<Blog> blogList = new ArrayList<>();
+        for (Map<String, Object> map:recordList) {
+            Blog blog = JSON.parseObject(JSON.toJSONString(map), Blog.class);
+            blogList.add(blog);
+        }
+        return blogList;
     }
 
     @Override
