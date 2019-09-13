@@ -16,6 +16,7 @@ public interface ArticleDao {
     Blog getBlogById(@Param("id") Integer id);
 
     @Insert("insert into blog (content, create_time, category, title, create_user, views) values (#{content},#{createTime},#{category},#{title},#{createUser},#{views} )")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void save(Blog blog);
 
     @Delete("delete * from blog where id=#{id}")
