@@ -1,14 +1,11 @@
 package com.sustly;
 
-import com.netflix.loadbalancer.IRule;
-import com.netflix.loadbalancer.RoundRobinRule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.Bean;
 
 /**
  * @Author: liyue
@@ -24,10 +21,5 @@ import org.springframework.context.annotation.Bean;
 public class BlogConsumerFeign {
     public static void main(String[] args) {
         SpringApplication.run(BlogConsumerFeign.class, args);
-    }
-
-    @Bean
-    public IRule feignRule() {
-        return new RoundRobinRule();
     }
 }
