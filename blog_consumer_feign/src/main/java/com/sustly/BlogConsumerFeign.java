@@ -1,7 +1,7 @@
 package com.sustly;
 
 import com.netflix.loadbalancer.IRule;
-import com.netflix.loadbalancer.ZoneAvoidanceRule;
+import com.netflix.loadbalancer.RoundRobinRule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -28,6 +28,6 @@ public class BlogConsumerFeign {
 
     @Bean
     public IRule feignRule() {
-        return new ZoneAvoidanceRule();
+        return new RoundRobinRule();
     }
 }
