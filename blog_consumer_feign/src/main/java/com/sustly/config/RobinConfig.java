@@ -1,6 +1,7 @@
 package com.sustly.config;
 
 import com.netflix.loadbalancer.IRule;
+import com.netflix.loadbalancer.RetryRule;
 import com.netflix.loadbalancer.RoundRobinRule;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +22,7 @@ public class RobinConfig {
 
     @Bean
     public IRule myRule(){
-        //循环算法 默认
-        return new RoundRobinRule();
+        //重试算法
+        return new RetryRule();
     }
 }
