@@ -27,7 +27,7 @@ public class ArticleServiceClientFallBackFactory implements FallbackFactory<Arti
             @Override
             public ResponseMsg get(Integer id) {
                 log.info(throwable.getMessage());
-                return ResponseMsg.onFail("博客找不到了！");
+                return ResponseMsg.onFail("服务器正在升级，请稍后访问！");
             }
 
             @Override
@@ -38,25 +38,25 @@ public class ArticleServiceClientFallBackFactory implements FallbackFactory<Arti
             @Override
             public ResponseMsg getArticleList(Integer page) {
                 log.info(throwable.getMessage());
-                return ResponseMsg.onFail("没有页数了！！");
+                return ResponseMsg.onFail("服务器正在升级，请稍后访问！");
             }
 
             @Override
             public ResponseMsg getArticleByUserList(String username, Integer page) {
                 log.info(throwable.getMessage());
-                return ResponseMsg.onFail("没有页数了！");
+                return ResponseMsg.onFail("服务器正在升级，请稍后访问！");
             }
 
             @Override
             public ResponseMsg getArticleListByTime(Integer page) {
                 log.info(throwable.getMessage());
-                return ResponseMsg.onFail("没有页数了！");
+                return ResponseMsg.onFail("服务器正在升级，请稍后访问！");
             }
 
             @Override
             public ResponseMsg getArticleListByCategory(String category, Integer page) {
                 log.info(throwable.getMessage());
-                return ResponseMsg.onFail("没有页数了！");
+                return ResponseMsg.onFail("服务器正在升级，请稍后访问！");
             }
 
             @Override
@@ -72,14 +72,14 @@ public class ArticleServiceClientFallBackFactory implements FallbackFactory<Arti
             @Override
             public ResponseMsg getArticleListBySearch(String search, Integer page) {
                 log.info(throwable.getMessage());
-                return ResponseMsg.onFail("找不到与"+search+"有关的数据！");
+                return ResponseMsg.onFail("服务器正在升级，请稍后访问！");
             }
 
             @Override
             public ResponseMsg
             uploadFile(MultipartFile image) {
                 log.info(throwable.getMessage());
-                return ResponseMsg.onFail("上传失败！");
+                return ResponseMsg.onFail("服务器正在升级，请稍后访问！");
             }
 
             @Override

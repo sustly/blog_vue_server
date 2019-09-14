@@ -20,13 +20,13 @@ public class UserServiceClientFallBackFactory implements FallbackFactory<UserCli
             @Override
             public ResponseMsg register(User user) {
                 log.info(throwable.getMessage());
-                return ResponseMsg.onFail("该用户名已被占用！");
+                return ResponseMsg.onFail("服务器正在升级，请稍后访问！！");
             }
 
             @Override
             public ResponseMsg login(User user) {
                 log.info(throwable.getMessage());
-                return ResponseMsg.onFail("用户不存在！");
+                return ResponseMsg.onFail("服务器正在升级，请稍后访问！");
             }
         };
     }
