@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @Author: liyue
  * @Date: 19-9-4 下午5:55
  */
-@FeignClient(value = "BLOG-ADMIN-PROVIDER-HYSTRIX", url = "http://localhost:8001", fallbackFactory=UserServiceClientFallBackFactory.class)
+@FeignClient(value = "BLOG-ADMIN-PROVIDER-HYSTRIX", fallbackFactory=UserServiceClientFallBackFactory.class)
 public interface UserClientService {
 
     @PostMapping("/register")
