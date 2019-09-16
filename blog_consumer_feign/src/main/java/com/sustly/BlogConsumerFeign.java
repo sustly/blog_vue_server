@@ -1,5 +1,6 @@
 package com.sustly;
 
+import com.sustly.config.RibbonConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -15,8 +16,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableEurekaClient
 @RibbonClients(value = {
-        @RibbonClient(value = "blog-article-provider-hystrix"),
-        @RibbonClient(value = "blog-admin-provider-hystrix")
+        @RibbonClient(value = "blog-article-provider-hystrix", configuration = RibbonConfig.class),
+        @RibbonClient(value = "blog-admin-provider-hystrix", configuration = RibbonConfig.class)
 })
 @EnableFeignClients(basePackages = {"com.sustly"})
 @EnableDiscoveryClient
