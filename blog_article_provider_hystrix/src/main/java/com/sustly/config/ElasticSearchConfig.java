@@ -21,9 +21,9 @@ import java.util.ArrayList;
 public class ElasticSearchConfig {
     private static ArrayList<HttpHost> hostList;
 
-    @Value("elasticsearch.port")
-    private int port;
-    @Value("elasticsearch.ip")
+    @Value(value = "${elasticsearch.port}")
+    private Integer port;
+    @Value(value = "${elasticsearch.ip}")
     private String hosts;
     // 连接超时时间
     private static int connectTimeOut = 1000;
