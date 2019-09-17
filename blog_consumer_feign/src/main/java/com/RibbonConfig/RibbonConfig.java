@@ -1,4 +1,4 @@
-package com.sustly.config;
+package com.RibbonConfig;
 
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.RoundRobinRule;

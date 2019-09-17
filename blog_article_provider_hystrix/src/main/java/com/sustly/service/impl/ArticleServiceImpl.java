@@ -1,7 +1,6 @@
 package com.sustly.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.sustly.dao.ArticleDao;
 import com.sustly.dto.EsPage;
 import com.sustly.entry.Blog;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,25 +25,31 @@ import java.util.Map;
 @Transactional(rollbackFor = {Exception.class})
 public class ArticleServiceImpl implements ArticleService {
 
-    private final String ES_TYPE = "article";
-    private final String ES_INDEX = "article";
     private final ArticleDao articleDao;
+    private final EsUtil esUtil;
 
     @Autowired
-    public ArticleServiceImpl(ArticleDao articleDao) {
+    public ArticleServiceImpl(ArticleDao articleDao, EsUtil esUtil) {
         this.articleDao = articleDao;
+        this.esUtil = esUtil;
     }
 
     @Override
     public void save(Blog blog) {
-        String jsonString = JSONObject.toJSONString(blog);
-        JSONObject jsonObject = JSONObject.parseObject(jsonString);
         if (blog.getId() == null) {
             articleDao.save(blog);
-            EsUtil.addData(jsonObject ,ES_INDEX, ES_TYPE, blog.getId().toString());
+            try {
+                esUtil.addData(blog, blog.getId().toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }else {
             articleDao.update(blog);
-            EsUtil.updateDataById(jsonObject ,ES_INDEX, ES_TYPE, blog.getId().toString());
+            try {
+                esUtil.updateDataById(blog, blog.getId().toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -55,7 +61,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void delete(Integer id) {
         articleDao.deleteById(id);
-      //  repository.deleteByBlogId(id);
+        try {
+            esUtil.deleteDataById(id.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -93,7 +103,12 @@ public class ArticleServiceImpl implements ArticleService {
         queryBuilder.must(QueryBuilders.matchQuery("title", search));
         queryBuilder.must(QueryBuilders.matchQuery("category", search));
         queryBuilder.must(QueryBuilders.matchQuery("content", search));
-        EsPage esPage = EsUtil.searchDataPage(ES_INDEX, ES_TYPE, startRow, 10, queryBuilder, null, null, null);
+        EsPage esPage = null;
+        try {
+            esPage = esUtil.searchDataPage(startRow, 10, queryBuilder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (esPage == null){
             return null;
         }

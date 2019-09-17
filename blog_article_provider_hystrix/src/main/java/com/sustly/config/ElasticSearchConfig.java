@@ -1,16 +1,16 @@
 package com.sustly.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.net.InetAddress;
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 
 /**
  * @Author: liyue
@@ -19,50 +19,52 @@ import java.net.InetAddress;
 @Configuration
 @Slf4j
 public class ElasticSearchConfig {
+    private static ArrayList<HttpHost> hostList;
 
-    @Value("${elasticsearch.ip}")
-    private String hostName;
+    @Value("elasticsearch.port")
+    private int port;
+    @Value("elasticsearch.ip")
+    private String hosts;
+    // 连接超时时间
+    private static int connectTimeOut = 1000;
+    // 连接超时时间
+    private static int socketTimeOut = 30000;
+    // 获取连接的超时时间
+    private static int connectionRequestTimeOut = 500;
+    // 最大连接数
+    private static int maxConnectNum = 100;
+    // 最大路由连接数
+    private static int maxConnectPerRoute = 100;
 
-    /**
-     * 端口
-     */
-    @Value("${elasticsearch.port}")
-    private String port;
-
-    /**
-     * 集群名称
-     */
-    @Value("${elasticsearch.cluster-name}")
-    private String clusterName;
-
-    /**
-     * 连接池
-     */
-    @Value("${elasticsearch.pool}")
-    private String poolSize;
-
-    /**
-     * Bean name default  函数名字
-     * @return TransportClient
-     */
-    @Bean(name = "transportClient")
-    public TransportClient transportClient() {
-        log.info("Elasticsearch初始化开始。。。。。");
-        TransportClient transportClient = null;
-        try {
-            // 配置信息
-            Settings esSetting = Settings.builder()
-                    .put("cluster.name", clusterName) //集群名字
-                    .put("client.transport.sniff", true)//增加嗅探机制，找到ES集群
-                    .put("thread_pool.search.size", Integer.parseInt(poolSize))//增加线程池个数，暂时设为5
-                    .build();
-            //配置信息Settings自定义
-            transportClient = new PreBuiltTransportClient(esSetting);
-            TransportAddress transportAddress = new InetSocketTransportAddress(InetAddress.getByName(hostName), Integer.valueOf(port));
-            transportClient.addTransportAddresses(transportAddress);
-        } catch (Exception e) {
-            log.error("elasticsearch TransportClient create error!!", e);
+    @PostConstruct
+    public void init() {
+        hostList = new ArrayList<>();
+        String[] hostStrs = hosts.split(",");
+        for (String host : hostStrs) {
+            // 使用的协议
+            String schema = "http";
+            hostList.add(new HttpHost(host, port, schema));
         }
-        return transportClient;
     }
+
+    @Bean
+    public RestHighLevelClient client() {
+        RestClientBuilder builder = RestClient.builder(hostList.toArray(new HttpHost[0]));
+        // 异步httpclient连接延时配置
+        builder.setRequestConfigCallback(requestConfigBuilder -> {
+            requestConfigBuilder.setConnectTimeout(connectTimeOut);
+            requestConfigBuilder.setSocketTimeout(socketTimeOut);
+            requestConfigBuilder.setConnectionRequestTimeout(connectionRequestTimeOut);
+            return requestConfigBuilder;
+        });
+        // 异步httpclient连接数配置
+        builder.setHttpClientConfigCallback(httpClientBuilder -> {
+            httpClientBuilder.setMaxConnTotal(maxConnectNum);
+            httpClientBuilder.setMaxConnPerRoute(maxConnectPerRoute);
+            return httpClientBuilder;
+        });
+        return new RestHighLevelClient(builder);
+    }
+
+
 }
