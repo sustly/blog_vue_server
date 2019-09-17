@@ -1,8 +1,6 @@
 package com.sustly.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.sustly.dao.ArticleDao;
-import com.sustly.dto.EsPage;
 import com.sustly.entry.Blog;
 import com.sustly.service.ArticleService;
 import com.sustly.util.EsUtil;
@@ -13,9 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author liyue
@@ -103,7 +99,7 @@ public class ArticleServiceImpl implements ArticleService {
         queryBuilder.must(QueryBuilders.matchQuery("title", search));
         queryBuilder.must(QueryBuilders.matchQuery("category", search));
         queryBuilder.must(QueryBuilders.matchQuery("content", search));
-        EsPage esPage = null;
+        List<Blog> esPage = null;
         try {
             esPage = esUtil.searchDataPage(startRow, 10, queryBuilder);
         } catch (IOException e) {
@@ -112,13 +108,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (esPage == null){
             return null;
         }
-        List<Map<String, Object>> recordList = esPage.getRecordList();
-        List<Blog> blogList = new ArrayList<>();
-        for (Map<String, Object> map:recordList) {
-            Blog blog = JSON.parseObject(JSON.toJSONString(map), Blog.class);
-            blogList.add(blog);
-        }
-        return blogList;
+        return esPage;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.sustly.util;
 
 import com.alibaba.fastjson.JSON;
-import com.sustly.dto.EsPage;
+import com.alibaba.fastjson.JSONObject;
 import com.sustly.entry.Blog;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.message.BasicHeader;
@@ -18,17 +18,22 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.text.Text;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: liyue
@@ -69,14 +74,14 @@ public class EsUtil {
 
     public void addData(Blog blog, String id) throws IOException {
         IndexRequest indexRequest = new IndexRequest(ES_INDEX, ES_TYPE, id);
-        indexRequest.source(blog, XContentType.JSON);
+        indexRequest.source(JSONObject.toJSONString(blog), XContentType.JSON);
         IndexResponse indexResponse = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
         System.out.println("add: " + JSON.toJSONString(indexResponse));
     }
 
     public void updateDataById(Blog blog, String id) throws IOException {
         UpdateRequest request = new UpdateRequest(ES_INDEX, ES_TYPE, id);
-        request.doc(blog, XContentType.JSON);
+        request.doc(JSONObject.toJSONString(blog), XContentType.JSON);
         UpdateResponse updateResponse = restHighLevelClient.update(request, RequestOptions.DEFAULT);
         log.info("update: " + JSON.toJSONString(updateResponse));
     }
@@ -87,23 +92,51 @@ public class EsUtil {
         log.info("delete: "+JSON.toJSONString(deleteResponse));
     }
 
-    public EsPage searchDataPage(int startRow, int size, BoolQueryBuilder queryBuilder) throws IOException {
+    public List<Blog> searchDataPage(int startRow, int size, BoolQueryBuilder queryBuilder) throws IOException {
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(queryBuilder);
         sourceBuilder.from(startRow);
         // 获取记录数，默认10
         sourceBuilder.size(size);
+
+        //设置高亮显示
+        HighlightBuilder highlightBuilder = new HighlightBuilder().field("*").requireFieldMatch(false);
+        highlightBuilder.preTags("<span style=\"color:red\">");
+        highlightBuilder.postTags("</span>");
+        sourceBuilder.highlighter(highlightBuilder);
+
         SearchRequest searchRequest = new SearchRequest(ES_INDEX);
         searchRequest.types(ES_TYPE);
         searchRequest.source(sourceBuilder);
         SearchResponse response = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+
+        //遍历结果
+        for(SearchHit hit : response.getHits()){
+            Map<String, Object> source = hit.getSourceAsMap();
+            //处理高亮片段
+            Map<String, HighlightField> highlightFields = hit.getHighlightFields();
+            HighlightField nameField = highlightFields.get("title");
+            if(nameField!=null){
+                Text[] fragments = nameField.fragments();
+                StringBuilder nameTmp = new StringBuilder();
+                for(Text text:fragments){
+                    nameTmp.append(text);
+                }
+                //将高亮片段组装到结果中去
+                source.put("title", nameTmp.toString());
+                log.info(source.toString());
+            }
+        }
         System.out.println("search: " + JSON.toJSONString(response));
         SearchHits hits = response.getHits();
         SearchHit[] searchHits = hits.getHits();
+        List<Blog> blogList = new ArrayList<>();
         for (SearchHit hit : searchHits) {
-            System.out.println("search -> " + hit.getSourceAsString());
+            System.out.println("search -> " + hit.getSourceAsMap());
+            JSONObject jsonObject = new JSONObject(hit.getSourceAsMap());
+            blogList.add(JSONObject.toJavaObject(jsonObject, Blog.class));
         }
-        return null;
+        return blogList;
     }
 }
 
