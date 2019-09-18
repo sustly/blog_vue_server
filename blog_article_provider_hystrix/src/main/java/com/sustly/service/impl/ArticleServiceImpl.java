@@ -96,9 +96,9 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Blog> search(String search, Integer page) {
         int startRow = page * 10;
         BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
-        queryBuilder.must(QueryBuilders.matchQuery("title", search));
-        queryBuilder.must(QueryBuilders.matchQuery("category", search));
-        queryBuilder.must(QueryBuilders.matchQuery("content", search));
+        queryBuilder.should(QueryBuilders.matchQuery("title", search));
+        queryBuilder.should(QueryBuilders.matchQuery("category", search));
+        queryBuilder.should(QueryBuilders.matchQuery("content", search));
         List<Blog> esPage = null;
         try {
             esPage = esUtil.searchDataPage(startRow, 10, queryBuilder);
