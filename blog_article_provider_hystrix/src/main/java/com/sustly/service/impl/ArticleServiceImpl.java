@@ -3,7 +3,7 @@ package com.sustly.service.impl;
 import com.sustly.dao.ArticleDao;
 import com.sustly.entry.Blog;
 import com.sustly.service.ArticleService;
-import com.sustly.util.EsUtil;
+import com.sustly.elastic.ElasticsearchService;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +22,12 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleDao articleDao;
-    private final EsUtil esUtil;
+    private final ElasticsearchService elasticsearchService;
 
     @Autowired
-    public ArticleServiceImpl(ArticleDao articleDao, EsUtil esUtil) {
+    public ArticleServiceImpl(ArticleDao articleDao, ElasticsearchService esUtil) {
         this.articleDao = articleDao;
-        this.esUtil = esUtil;
+        this.elasticsearchService = esUtil;
     }
 
     @Override
@@ -35,14 +35,14 @@ public class ArticleServiceImpl implements ArticleService {
         if (blog.getId() == null) {
             articleDao.save(blog);
             try {
-                esUtil.addData(blog, blog.getId().toString());
+                elasticsearchService.addData(blog, blog.getId().toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }else {
             articleDao.update(blog);
             try {
-                esUtil.updateDataById(blog, blog.getId().toString());
+                elasticsearchService.updateDataById(blog, blog.getId().toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -58,7 +58,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void delete(Integer id) {
         articleDao.deleteById(id);
         try {
-            esUtil.deleteDataById(id.toString());
+            elasticsearchService.deleteDataById(id.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -101,7 +101,7 @@ public class ArticleServiceImpl implements ArticleService {
         queryBuilder.should(QueryBuilders.matchQuery("content", search));
         List<Blog> esPage = null;
         try {
-            esPage = esUtil.searchDataPage(startRow, 10, queryBuilder);
+            esPage = elasticsearchService.searchDataPage(startRow, 10, queryBuilder);
         } catch (IOException e) {
             e.printStackTrace();
         }

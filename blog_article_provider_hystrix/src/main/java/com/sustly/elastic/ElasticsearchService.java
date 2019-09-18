@@ -1,10 +1,9 @@
-package com.sustly.util;
+package com.sustly.elastic;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sustly.entry.Blog;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.message.BasicHeader;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
@@ -41,14 +40,14 @@ import java.util.Map;
  */
 @Component
 @Slf4j
-public class EsUtil {
+public class ElasticsearchService {
 
     private final RestHighLevelClient restHighLevelClient;
     private static final String ES_TYPE = "article";
     private static final String ES_INDEX = "article";
 
     @Autowired
-    public EsUtil(RestHighLevelClient restHighLevelClient) {
+    public ElasticsearchService(RestHighLevelClient restHighLevelClient) {
         this.restHighLevelClient = restHighLevelClient;
     }
 
