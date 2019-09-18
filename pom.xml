@@ -16,8 +16,6 @@
         <module>blog_consumer_feign</module>
         <module>blog_zuul</module>
         <module>blog_consumer_hystrix_dashboard</module>
-        <module>blog_consumer_admin</module>
-        <module>blog_consumer_article</module>
     </modules>
 
     <properties>
