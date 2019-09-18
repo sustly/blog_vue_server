@@ -19,8 +19,8 @@ import java.util.ArrayList;
 @Configuration
 @Slf4j
 public class ElasticSearchConfig {
-    private static ArrayList<HttpHost> hostList;
 
+    private ArrayList<HttpHost> hostList;
     @Value(value = "${elasticsearch.port}")
     private Integer port;
     @Value(value = "${elasticsearch.ip}")
