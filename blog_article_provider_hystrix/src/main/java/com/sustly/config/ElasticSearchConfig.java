@@ -25,16 +25,21 @@ public class ElasticSearchConfig {
     private Integer port;
     @Value(value = "${elasticsearch.ip}")
     private String hosts;
-    // 连接超时时间
-    private static int connectTimeOut = 1000;
-    // 连接超时时间
-    private static int socketTimeOut = 30000;
-    // 获取连接的超时时间
-    private static int connectionRequestTimeOut = 500;
-    // 最大连接数
-    private static int maxConnectNum = 100;
-    // 最大路由连接数
-    private static int maxConnectPerRoute = 100;
+    /** 连接超时时间 */
+    @Value("${elasticsearch.connectTimeOut}")
+    private static int connectTimeOut;
+    /** 连接超时时间 */
+    @Value("${elasticsearch.socketTimeOut}")
+    private static int socketTimeOut;
+    /** 获取连接的超时时间 */
+    @Value("${elasticsearch.connectionRequestTimeOut}")
+    private int connectionRequestTimeOut;
+    /** 最大连接数 */
+    @Value("${elasticsearch.maxConnectNum}")
+    private int maxConnectNum;
+    /** 最大路由连接数 */
+    @Value("${elasticsearch.maxConnectPerRoute}")
+    private int maxConnectPerRoute;
 
     @PostConstruct
     public void init() {

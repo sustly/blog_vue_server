@@ -44,7 +44,6 @@ import java.util.Map;
 public class EsUtil {
 
     private final RestHighLevelClient restHighLevelClient;
-    private static BasicHeader basicHeader = new BasicHeader("content-type", "application/json");
     private static final String ES_TYPE = "article";
     private static final String ES_INDEX = "article";
 
@@ -127,13 +126,12 @@ public class EsUtil {
                 log.info(source.toString());
             }
         }
-        System.out.println("search: " + JSON.toJSONString(response));
         SearchHits hits = response.getHits();
         SearchHit[] searchHits = hits.getHits();
         List<Blog> blogList = new ArrayList<>();
         for (SearchHit hit : searchHits) {
-            System.out.println("search -> " + hit.getSourceAsMap());
             JSONObject jsonObject = new JSONObject(hit.getSourceAsMap());
+            log.info("search:{}", jsonObject.toJSONString());
             blogList.add(JSONObject.toJavaObject(jsonObject, Blog.class));
         }
         return blogList;
