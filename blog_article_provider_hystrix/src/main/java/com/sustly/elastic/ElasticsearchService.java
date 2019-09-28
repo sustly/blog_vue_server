@@ -20,6 +20,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.text.Text;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -90,7 +91,10 @@ public class ElasticsearchService {
         log.info("delete: "+JSON.toJSONString(deleteResponse));
     }
 
-    public List<Blog> searchDataPage(int startRow, int size, BoolQueryBuilder queryBuilder) throws IOException {
+    public List<Blog> searchDataPage(int startRow, int size, String[] field, String search) throws IOException {
+        BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
+        queryBuilder.must(QueryBuilders.multiMatchQuery(search, field));
+
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(queryBuilder);
         sourceBuilder.from(startRow);

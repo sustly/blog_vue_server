@@ -95,13 +95,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Blog> search(String search, Integer page) {
         int startRow = page * 10;
-        BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
-        queryBuilder.should(QueryBuilders.matchQuery("title", search));
-        queryBuilder.should(QueryBuilders.matchQuery("category", search));
-        queryBuilder.should(QueryBuilders.matchQuery("content", search));
+        String[] field = {"title", "category", "content"};
         List<Blog> esPage = null;
         try {
-            esPage = elasticsearchService.searchDataPage(startRow, 10, queryBuilder);
+            esPage = elasticsearchService.searchDataPage(startRow, 10, field, search);
         } catch (IOException e) {
             e.printStackTrace();
         }
