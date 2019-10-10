@@ -5,7 +5,7 @@ version1.0
 springbootversion分支
 
 ##博客系统的后端
-###使用springboot1.5、springMVC、springData Jpa、springData elasticsearch、druid、mysql5.7
+###使用springcloud Finchley.SR1、springboot2.0.1、mybatis、elasticsearch 6.4.2、druid、mysql5.7
 
 ##本系统的前端地址 <a href="https://github.com/sustly/blog_vue_web">前端传送门</a>
 
