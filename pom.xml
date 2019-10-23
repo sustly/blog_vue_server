@@ -10,9 +10,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>blog_api</module>
-        <module>blog_admin_provider_hystrix</module>
-        <module>blog_article_provider_hystrix</module>
-        <module>blog_eureka</module>
+        <module>blog_admin_provider</module>
+        <module>blog_article_provider</module>
         <module>blog_consumer_feign</module>
         <module>blog_zuul</module>
         <module>blog_consumer_hystrix_dashboard</module>
