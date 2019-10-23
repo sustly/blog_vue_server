@@ -14,6 +14,7 @@
         <module>blog_article_provider</module>
         <module>blog_consumer_feign</module>
         <module>blog_zuul</module>
+        <module>sentinel-dashboard</module>
     </modules>
 
     <properties>
