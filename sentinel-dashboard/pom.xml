@@ -207,7 +207,7 @@
                 </executions>
                 <configuration>
                     <!--配置主机地址，即linux服务器的地址-->
-                    <dockerHost>http://47.101.132.22:2375</dockerHost>
+                    <dockerHost>http://127.0.0.1:2375</dockerHost>
                     <imageName>sustly/${project.artifactId}</imageName>
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
