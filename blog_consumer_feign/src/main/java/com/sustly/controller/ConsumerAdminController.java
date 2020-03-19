@@ -4,6 +4,9 @@ import com.sustly.entry.User;
 import com.sustly.service.UserClientService;
 import com.sustly.dto.ResponseMsg;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date: 19-9-4 下午5:54
  */
 @RestController
+@RefreshScope
 public class ConsumerAdminController {
     private final UserClientService userService;
 
@@ -30,5 +34,12 @@ public class ConsumerAdminController {
     @PostMapping("/login")
     public ResponseMsg login(@RequestBody User user){
         return userService.login(user);
+    }
+
+    @Value("${version}")
+    private String version;
+    @GetMapping("getVersion")
+    public String getVersion(){
+        return version;
     }
 }
