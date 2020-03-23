@@ -11,6 +11,10 @@
 
     <artifactId>blog_zuul</artifactId>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
         <!-- zuul路由网关 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
