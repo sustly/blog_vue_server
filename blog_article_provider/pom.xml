@@ -13,6 +13,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.sustly</groupId>
             <artifactId>blog_api</artifactId>
             <version>${project.version}</version>

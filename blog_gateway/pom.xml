@@ -12,6 +12,10 @@
     <artifactId>blog_gateway</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
         <!-- gateway路由网关 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
