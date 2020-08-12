@@ -9,7 +9,7 @@ master:最新内容
 
 springcloud_netflix:springcloud netflix版本，目前已经基本完善
 
-springcloud_alibaba:springcloud alibaba版本，下一步计划，将所有内容都迁移到springcloud alibaba上
+springcloud_alibaba:springcloud alibaba版本，目前已经完善
 
 springbootVersion:单机版springboot版本
 <h2/>
