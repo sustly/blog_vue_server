@@ -2,8 +2,6 @@
 ## 注意：关于部署，现在改为使用docker部署，但是使用docker部署时，如果你用的是docker中的es和mysql，他们的地址绝对不能用localhost和127.0.0.1,这样会找不到的，使用内网分配的地址才行。
 # blog_vue_server
 
-<h2>kotlin分支：做一个kotlin+springboot单机版的，使用的springboot2.3.2,kotlin1.3.72<h2/>
-
 
 <h2>关于分支<h2/>
 <br/>
